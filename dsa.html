@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA Patterns — LeetCode Roadmap</title>
+  <meta name="description" content="A structured DSA patterns roadmap: topics, patterns, and curated Easy/Medium/Hard LeetCode problems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f7fb; --surface: #fff; --surface-2: #f0f2f8; --text: #14171f; --muted: #5b6373;
+      --primary: #4f46e5; --primary-soft: #ecebfe; --border: #e6e9f0;
+      --e: #16a34a; --e-bg: #dcfce7; --m: #d97706; --m-bg: #fef3c7; --h: #dc2626; --h-bg: #fee2e2;
+      --shadow: 0 8px 26px rgba(16,19,28,.08);
+    }
+    [data-theme="dark"] {
+      --bg: #0b0d13; --surface: #14171f; --surface-2: #1b1f2b; --text: #e3e7f0; --muted: #98a1b4;
+      --primary: #8b8bf5; --primary-soft: #20233a; --border: #232838;
+      --e: #4ade80; --e-bg: #10331f; --m: #fbbf24; --m-bg: #3a2c07; --h: #f87171; --h-bg: #3a1414;
+      --shadow: 0 8px 26px rgba(0,0,0,.4);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+    header.top {
+      position: sticky; top: 0; z-index: 20;
+      background: color-mix(in srgb, var(--surface) 85%, transparent);
+      backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+    }
+    .top-row { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: -.01em; }
+    .brand span { color: var(--primary); }
+    .credit { font-size: .78rem; color: var(--muted); }
+    .spacer { flex: 1; }
+    .search { flex: 1 1 220px; min-width: 180px; position: relative; }
+    .search input {
+      width: 100%; padding: 9px 14px 9px 34px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text); font-size: .9rem; outline: none;
+    }
+    .search input:focus { border-color: var(--primary); }
+    .search::before { content: "🔍"; position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: .8rem; opacity: .6; }
+    .btn {
+      padding: 8px 13px; border-radius: 9px; border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-size: .82rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+    }
+    .btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 20px; }
+    .intro { color: var(--muted); font-size: .9rem; margin-bottom: 16px; }
+    .progress-bar-wrap { margin: 6px 0 18px; }
+    .progress-track { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--e)); transition: width .3s ease; }
+    .progress-label { font-size: .8rem; color: var(--muted); margin-top: 6px; }
+
+    /* Tree */
+    details { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin-bottom: 8px; overflow: hidden; }
+    details > summary {
+      cursor: pointer; list-style: none; padding: 13px 16px; font-weight: 700; font-size: 1rem;
+      display: flex; align-items: center; gap: 10px; user-select: none;
+    }
+    details > summary::-webkit-details-marker { display: none; }
+    .chev { transition: transform .2s ease; color: var(--muted); font-size: .8rem; }
+    details[open] > summary .chev { transform: rotate(90deg); }
+    .topic > summary { background: var(--surface); }
+    .count { font-size: .72rem; color: var(--muted); font-weight: 500; margin-left: auto; }
+
+    /* nested patterns */
+    .kids { padding: 4px 12px 12px; }
+    .pat { border: 1px solid var(--border); border-radius: 10px; margin: 8px 0; background: var(--surface-2); }
+    .pat > summary { font-size: .92rem; font-weight: 600; padding: 10px 14px; }
+    .pat .kids { padding: 2px 10px 8px; }
+    .subpat { border: 1px dashed var(--border); border-radius: 8px; margin: 6px 0; background: transparent; }
+    .subpat > summary { font-size: .87rem; font-weight: 500; padding: 8px 12px; color: var(--muted); }
+
+    /* leaf problem rows */
+    .leaf { padding: 8px 12px 12px; }
+    .leaf-name { font-size: .85rem; font-weight: 600; margin: 8px 0 8px; display: flex; align-items: center; gap: 8px; }
+    .leaf-name::before { content: "▹"; color: var(--primary); }
+    .probs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .prob {
+      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--surface); font-size: .82rem; color: var(--text); transition: transform .12s ease, border-color .12s ease;
+    }
+    .prob:hover { transform: translateY(-2px); border-color: var(--primary); }
+    .prob input { accent-color: var(--primary); cursor: pointer; }
+    .prob.done .p-title { text-decoration: line-through; opacity: .55; }
+    .tag { font-family: "JetBrains Mono", monospace; font-size: .66rem; font-weight: 600; padding: 2px 6px; border-radius: 5px; }
+    .tag.E { color: var(--e); background: var(--e-bg); }
+    .tag.M { color: var(--m); background: var(--m-bg); }
+    .tag.H { color: var(--h); background: var(--h-bg); }
+    .p-num { font-family: "JetBrains Mono", monospace; font-size: .72rem; color: var(--muted); }
+
+    /* hints, notes, code */
+    .hint { font-size: .82rem; color: var(--muted); background: var(--primary-soft); border-left: 3px solid var(--primary); padding: 8px 11px; border-radius: 7px; margin: 4px 0 10px; }
+    .hint b { color: var(--text); }
+    .note { font-size: .86rem; color: var(--muted); margin: 4px 0 8px; }
+    .note b { color: var(--text); }
+    .note code, .inline-code { font-family: "JetBrains Mono", monospace; font-size: .8rem; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; color: var(--primary); }
+    pre.code { font-family: "JetBrains Mono", monospace; font-size: .78rem; line-height: 1.5; background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px; overflow-x: auto; margin: 6px 0 12px; color: var(--text); }
+
+    .hidden { display: none !important; }
+    footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 30px 20px 50px; }
+    footer a { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-row">
+      <div>
+        <div class="brand">DSA <span>Patterns</span></div>
+        <div class="credit">Roadmap · curated LeetCode problems</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="search"><input id="search" type="text" placeholder="Search pattern or problem…" /></div>
+      <a class="btn" href="dsa-cheatsheet.html">📝 Cheat Sheet</a>
+      <button class="btn" id="expandAll">Expand all</button>
+      <button class="btn" id="collapseAll">Collapse all</button>
+      <button class="btn" id="themeToggle">🌙</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <p class="intro">
+      Click a topic to expand. Each pattern lists a curated <strong>Easy</strong>, <strong>Medium</strong>, and <strong>Hard</strong>
+      problem linking directly to LeetCode. Tick a box to mark it solved — progress is saved in your browser.
+    </p>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 / 0 solved</div>
+    </div>
+    <div id="tree"></div>
+  </div>
+
+  <footer>
+    Built for focused DSA prep · problems open on <a href="https://leetcode.com" target="_blank" rel="noopener">LeetCode</a>
+  </footer>
+
+  <script src="dsa-data.js"></script>
+  <script>
+    /* ---------- helpers ---------- */
+    const LC = (slug) => `https://leetcode.com/problems/${slug}/`;
+    const $ = (s, r = document) => r.querySelector(s);
+
+    const solved = JSON.parse(localStorage.getItem("dsa-solved") || "{}");
+    let totalProblems = 0;
+
+    function problemEl(p) {
+      // p = [num, slug, title, diff]
+      const [num, slug, title, diff] = p;
+      totalProblems++;
+      const id = "lc" + num;
+      const a = document.createElement("a");
+      a.className = "prob" + (solved[id] ? " done" : "");
+      a.href = LC(slug);
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.dataset.search = (num + " " + title).toLowerCase();
+      a.innerHTML =
+        `<input type="checkbox" ${solved[id] ? "checked" : ""} title="Mark solved" />` +
+        `<span class="tag ${diff}">${diff}</span>` +
+        `<span class="p-num">#${num}</span>` +
+        `<span class="p-title">${title}</span>`;
+      const cb = a.querySelector("input");
+      cb.addEventListener("click", (e) => {
+        e.preventDefault(); e.stopPropagation();
+        solved[id] = cb.checked;
+        localStorage.setItem("dsa-solved", JSON.stringify(solved));
+        a.classList.toggle("done", cb.checked);
+        updateProgress();
+      });
+      return a;
+    }
+
+    function hintEl(html) {
+      const el = document.createElement("div");
+      el.className = "hint";
+      el.innerHTML = "💡 " + html;
+      return el;
+    }
+
+    function leafEl(node) {
+      const wrap = document.createElement("div");
+      wrap.className = "leaf";
+      const name = document.createElement("div");
+      name.className = "leaf-name";
+      name.textContent = node.n;
+      wrap.appendChild(name);
+      if (node.h) wrap.appendChild(hintEl(node.h));
+      if (node.note) {
+        const nt = document.createElement("div");
+        nt.className = "note";
+        nt.innerHTML = node.note;
+        wrap.appendChild(nt);
+      }
+      if (node.code) {
+        const c = document.createElement("pre");
+        c.className = "code";
+        c.textContent = node.code;
+        wrap.appendChild(c);
+      }
+      if (node.p) {
+        const probs = document.createElement("div");
+        probs.className = "probs";
+        node.p.forEach((p) => probs.appendChild(problemEl(p)));
+        wrap.appendChild(probs);
+      }
+      return wrap;
+    }
+
+    function nodeEl(node, level) {
+      // leaf = no children (may hold problems, notes, or code)
+      if (!node.c) return leafEl(node);
+
+      const d = document.createElement("details");
+      d.className = level === 0 ? "topic" : level === 1 ? "pat" : "subpat";
+      const s = document.createElement("summary");
+      s.innerHTML = `<span class="chev">▶</span> ${node.n}`;
+      d.appendChild(s);
+      const kids = document.createElement("div");
+      kids.className = "kids";
+      if (node.h) kids.appendChild(hintEl(node.h));
+      node.c.forEach((child) => kids.appendChild(nodeEl(child, level + 1)));
+      d.appendChild(kids);
+      return d;
+    }
+
+    const tree = $("#tree");
+    DSA.forEach((topic) => tree.appendChild(nodeEl(topic, 0)));
+
+    /* ---------- progress ---------- */
+    function updateProgress() {
+      const done = Object.values(solved).filter(Boolean).length;
+      const pct = totalProblems ? Math.round((done / totalProblems) * 100) : 0;
+      $("#progressFill").style.width = pct + "%";
+      $("#progressLabel").textContent = `${done} / ${totalProblems} solved · ${pct}%`;
+    }
+    updateProgress();
+
+    /* ---------- expand / collapse ---------- */
+    $("#expandAll").addEventListener("click", () =>
+      document.querySelectorAll("details").forEach((d) => (d.open = true))
+    );
+    $("#collapseAll").addEventListener("click", () =>
+      document.querySelectorAll("details").forEach((d) => (d.open = false))
+    );
+
+    /* ---------- search ---------- */
+    $("#search").addEventListener("input", (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const details = document.querySelectorAll("#tree details");
+      if (!q) {
+        document.querySelectorAll(".prob").forEach((p) => p.classList.remove("hidden"));
+        details.forEach((d) => { d.classList.remove("hidden"); d.open = false; });
+        return;
+      }
+      // match problems + summary text
+      details.forEach((d) => d.classList.add("hidden"));
+      document.querySelectorAll(".prob").forEach((p) => {
+        p.classList.toggle("hidden", !p.dataset.search.includes(q));
+      });
+      // reveal branches that contain a visible problem OR whose summary matches
+      document.querySelectorAll("#tree details").forEach((d) => {
+        const sumText = d.querySelector("summary").textContent.toLowerCase();
+        const hasVisibleProb = [...d.querySelectorAll(".prob")].some((p) => !p.classList.contains("hidden"));
+        const nameMatch = sumText.includes(q);
+        if (hasVisibleProb || nameMatch) {
+          d.classList.remove("hidden"); d.open = true;
+          let par = d.parentElement.closest("details");
+          while (par) { par.classList.remove("hidden"); par.open = true; par = par.parentElement.closest("details"); }
+          if (nameMatch) d.querySelectorAll(".prob").forEach((p) => p.classList.remove("hidden"));
+        }
+      });
+    });
+
+    /* ---------- theme ---------- */
+    const toggle = $("#themeToggle"), root = document.documentElement;
+    const saved = localStorage.getItem("dsa-theme");
+    if (saved === "dark" || (!saved && matchMedia("(prefers-color-scheme: dark)").matches)) {
+      root.setAttribute("data-theme", "dark"); toggle.textContent = "☀️";
+    }
+    toggle.addEventListener("click", () => {
+      const dark = root.getAttribute("data-theme") === "dark";
+      if (dark) { root.removeAttribute("data-theme"); toggle.textContent = "🌙"; localStorage.setItem("dsa-theme", "light"); }
+      else { root.setAttribute("data-theme", "dark"); toggle.textContent = "☀️"; localStorage.setItem("dsa-theme", "dark"); }
+    });
+  </script>
+</body>
+</html>

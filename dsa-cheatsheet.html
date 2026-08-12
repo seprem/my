@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA Cheat Sheet — 1-Day Revision</title>
+  <meta name="description" content="One-day DSA revision cheat sheet: short notes, Python templates, and diagrams for every pattern." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#f5f6fa; --surface:#fff; --surface2:#eef1f7; --text:#161a23; --muted:#5a6273;
+      --primary:#4f46e5; --primary-soft:#ecebfe; --border:#e5e8f0; --accent:#0ea5e9;
+      --e:#16a34a; --m:#d97706; --h:#dc2626; --shadow:0 6px 22px rgba(16,19,28,.07);
+    }
+    [data-theme="dark"]{
+      --bg:#0b0d13; --surface:#14171f; --surface2:#1b1f2b; --text:#e4e8f1; --muted:#98a1b4;
+      --primary:#8b8bf5; --primary-soft:#20233a; --border:#242a38; --accent:#38bdf8;
+      --e:#4ade80; --m:#fbbf24; --h:#f87171; --shadow:0 6px 22px rgba(0,0,0,.4);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:70px}
+    body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+
+    /* top bar + TOC */
+    header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .bar-in{max-width:1080px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .logo{font-weight:800;font-size:1.05rem}.logo span{color:var(--primary)}
+    .sub{font-size:.75rem;color:var(--muted)}
+    .bar .sp{flex:1}
+    .btn{padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none}
+    .btn:hover{border-color:var(--primary);color:var(--primary)}
+    .toc{max-width:1080px;margin:0 auto;padding:8px 18px 12px;display:flex;flex-wrap:wrap;gap:6px}
+    .toc a{font-size:.76rem;padding:4px 10px;border-radius:99px;background:var(--surface2);color:var(--muted);text-decoration:none;border:1px solid transparent}
+    .toc a:hover{color:var(--primary);border-color:var(--primary)}
+
+    main{max-width:1080px;margin:0 auto;padding:18px}
+    .hero{padding:10px 4px 18px}
+    .hero h1{font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.02em}
+    .hero p{color:var(--muted);margin-top:6px;font-size:.95rem}
+
+    section.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:20px 22px;margin-bottom:16px;scroll-margin-top:70px}
+    section.card > h2{font-size:1.25rem;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+    section.card > h2 .ic{font-size:1.1rem}
+    .when{font-size:.86rem;color:var(--muted);background:var(--primary-soft);border-left:3px solid var(--primary);padding:7px 11px;border-radius:7px;margin:8px 0 14px}
+    .when b{color:var(--text)}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}}
+    h3.blk{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin:2px 0 8px}
+
+    ul.pts{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.88rem}
+    ul.pts li{padding-left:16px;position:relative;color:var(--text)}
+    ul.pts li::before{content:"▹";position:absolute;left:0;color:var(--accent)}
+    ul.pts b{color:var(--text)}
+    .muted{color:var(--muted)}
+
+    pre{font-family:"JetBrains Mono",monospace;font-size:.76rem;line-height:1.5;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 13px;overflow-x:auto;white-space:pre;color:var(--text)}
+    pre.dia{color:var(--muted);font-size:.72rem}
+    code.k{font-family:"JetBrains Mono",monospace;font-size:.82rem;background:var(--surface2);padding:1px 5px;border-radius:4px;color:var(--primary)}
+
+    table.cx{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:6px}
+    table.cx th,table.cx td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)}
+    table.cx th{color:var(--muted);font-weight:600}
+    .tag{font-family:"JetBrains Mono",monospace;font-size:.68rem;padding:2px 6px;border-radius:5px;font-weight:600}
+    .tag.O{background:var(--primary-soft);color:var(--primary)}
+
+    .tip{font-size:.85rem;background:var(--surface2);border-radius:9px;padding:10px 12px;margin-top:8px}
+    .tip b{color:var(--accent)}
+
+    footer{text-align:center;color:var(--muted);font-size:.8rem;padding:26px 18px 50px}
+    footer a{color:var(--primary)}
+
+    @media print{
+      header.bar,.toc,.btn{display:none}
+      body{background:#fff}
+      section.card{box-shadow:none;break-inside:avoid;border-color:#ccc}
+      a{color:#000;text-decoration:none}
+      pre{background:#f4f4f4}
+    }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-in">
+      <div>
+        <div class="logo">DSA <span>Cheat Sheet</span></div>
+        <div class="sub">1-day revision · notes · templates · diagrams</div>
+      </div>
+      <div class="sp"></div>
+      <a class="btn" href="dsa.html">← Full roadmap</a>
+      <button class="btn" onclick="window.print()">⬇ Save PDF</button>
+      <button class="btn" id="themeToggle">🌙</button>
+    </div>
+    <nav class="toc" id="toc"></nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>DSA Cheat Sheet</h1>
+      <p>Skim top-to-bottom the day before your interview. Each block = <b>when to use → key idea → Python template → diagram</b>.</p>
+    </div>
+
+    <!-- COMPLEXITY -->
+    <section class="card" id="complexity">
+      <h2><span class="ic">⏱️</span> Complexity & Data-Structure Ops</h2>
+      <div class="grid">
+        <div>
+          <h3 class="blk">Time targets by input size</h3>
+          <table class="cx">
+            <tr><th>n</th><th>Feasible</th></tr>
+            <tr><td>≤ 10</td><td><span class="tag O">O(n!)</span> / backtracking</td></tr>
+            <tr><td>≤ 20</td><td><span class="tag O">O(2ⁿ)</span> bitmask</td></tr>
+            <tr><td>≤ 500</td><td><span class="tag O">O(n³)</span></td></tr>
+            <tr><td>≤ 5·10³</td><td><span class="tag O">O(n²)</span></td></tr>
+            <tr><td>≤ 10⁶</td><td><span class="tag O">O(n log n)</span></td></tr>
+            <tr><td>&gt; 10⁷</td><td><span class="tag O">O(n)</span> / O(log n)</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3 class="blk">Structure operations</h3>
+          <table class="cx">
+            <tr><th>Structure</th><th>Access</th><th>Insert</th><th>Search</th></tr>
+            <tr><td>Array/List</td><td>O(1)</td><td>O(n)</td><td>O(n)</td></tr>
+            <tr><td>Hash map/set</td><td>—</td><td>O(1)</td><td>O(1)</td></tr>
+            <tr><td>Balanced BST</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+            <tr><td>Heap</td><td>O(1) top</td><td>O(log n)</td><td>O(n)</td></tr>
+            <tr><td>Stack/Queue</td><td>O(1) end</td><td>O(1)</td><td>O(n)</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO POINTERS -->
+    <section class="card" id="twopointers">
+      <h2><span class="ic">↔️</span> Two Pointers</h2>
+      <div class="when"><b>When:</b> sorted array/string, pair/triplet sums, palindrome, in-place partition, remove duplicates.</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li><b>Opposite ends:</b> move the pointer that can improve the answer.</li>
+            <li><b>Same direction:</b> slow = write index, fast = read index.</li>
+            <li>Sort first if order doesn't matter; skip duplicates for k-sum.</li>
+          </ul>
+          <pre>def two_sum_sorted(a, target):
+    l, r = 0, len(a)-1
+    while l < r:
+        s = a[l] + a[r]
+        if s == target: return (l, r)
+        if s < target: l += 1     # need bigger
+        else:          r -= 1     # need smaller</pre>
+        </div>
+        <pre class="dia">Opposite ends (sum):
+  [ 2  3  5  8  11 ]  target=13
+    l -->        <-- r
+  a[l]+a[r]=13  -> found
+
+Same direction (dedupe):
+  [1,1,2,3,3]
+   s        (write)
+      f      (read, skip dupes)</pre>
+      </div>
+    </section>
+
+    <!-- SLIDING WINDOW -->
+    <section class="card" id="sliding">
+      <h2><span class="ic">🪟</span> Sliding Window</h2>
+      <div class="when"><b>When:</b> longest/shortest/count of contiguous subarray/substring satisfying a constraint.</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li><b>Grow</b> with <code class="k">right</code>; <b>shrink</b> from <code class="k">left</code> while invalid.</li>
+            <li>Track window state: sum, or char-frequency map.</li>
+            <li>Fixed size k → add r, remove r-k.</li>
+          </ul>
+          <pre>def longest_valid(s):
+    cnt, left, best = {}, 0, 0
+    for right, ch in enumerate(s):
+        cnt[ch] = cnt.get(ch,0)+1
+        while invalid(cnt):        # e.g. dup found
+            cnt[s[left]] -= 1
+            left += 1
+        best = max(best, right-left+1)
+    return best</pre>
+        </div>
+        <pre class="dia">  a b c a b c b b
+  [.....]              window grows ->
+      [.....]          shrink left when a char repeats
+  best = max window length while valid</pre>
+      </div>
+    </section>
+
+    <!-- BINARY SEARCH -->
+    <section class="card" id="binarysearch">
+      <h2><span class="ic">🔍</span> Binary Search</h2>
+      <div class="when"><b>When:</b> sorted search space OR the answer is monotonic (feasible-then-infeasible). "Minimize/maximize X such that check(X)".</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li>Classic: <code class="k">while lo &lt;= hi</code>, compare <code class="k">a[mid]</code>.</li>
+            <li><b>On answer:</b> binary search the value; write a monotone <code class="k">feasible(x)</code>.</li>
+            <li>Rotated array: one half is always sorted — check which.</li>
+          </ul>
+          <pre>def bs_on_answer(lo, hi, feasible):
+    # smallest x with feasible(x) == True
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if feasible(mid): hi = mid
+        else:             lo = mid + 1
+    return lo</pre>
+        </div>
+        <pre class="dia">feasible:  F F F F T T T T
+                     ^ answer (first True)
+lo ----------> | <---------- hi
+        collapse toward boundary</pre>
+      </div>
+    </section>
+
+    <!-- PREFIX / HASHING -->
+    <section class="card" id="prefix">
+      <h2><span class="ic">➕</span> Prefix Sum & Hashing</h2>
+      <div class="grid">
+        <div>
+          <h3 class="blk">Prefix Sum</h3>
+          <ul class="pts">
+            <li>Range sum = <code class="k">pre[r] - pre[l-1]</code>.</li>
+            <li>#subarrays with sum k: store freq of prefix; <code class="k">ans += seen[pre-k]</code>.</li>
+          </ul>
+          <pre>seen = {0:1}; pre = ans = 0
+for x in nums:
+    pre += x
+    ans += seen.get(pre-k, 0)
+    seen[pre] = seen.get(pre,0)+1</pre>
+        </div>
+        <div>
+          <h3 class="blk">Hashing</h3>
+          <ul class="pts">
+            <li>"seen before / count / group / pair" → dict or set.</li>
+            <li>Anagram key = sorted string or 26-count tuple.</li>
+            <li>Index-as-hash for values in 1..n.</li>
+          </ul>
+          <div class="tip"><b>Tip:</b> <code class="k">collections.Counter</code>, <code class="k">defaultdict(list)</code> save lots of code.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="card" id="stack">
+      <h2><span class="ic">📚</span> Stack & Monotonic Stack</h2>
+      <div class="when"><b>When:</b> matching/parentheses, "next greater/smaller", histogram spans, undo.</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li>Monotonic: pop while top breaks the order — that pop is resolved by current element.</li>
+            <li>Next Greater → decreasing stack of indices.</li>
+          </ul>
+          <pre>def next_greater(a):
+    res = [-1]*len(a); st = []          # indices, decreasing
+    for i, x in enumerate(a):
+        while st and a[st[-1]] < x:
+            res[st.pop()] = x
+        st.append(i)
+    return res</pre>
+        </div>
+        <pre class="dia">a = [2, 1, 3]
+stack(idx): [0] -> [0,1] -> pop 1,0 (both<3)
+NGE:          2->3, 1->3, 3->-1</pre>
+      </div>
+    </section>
+
+    <!-- LINKED LIST -->
+    <section class="card" id="linkedlist">
+      <h2><span class="ic">🔗</span> Linked List</h2>
+      <div class="when"><b>When:</b> pointer manipulation. Tools: <b>dummy head</b>, <b>fast/slow</b>, <b>iterative reverse</b>.</div>
+      <div class="grid">
+        <div>
+          <pre>def reverse(head):
+    prev = None
+    while head:
+        nxt = head.next
+        head.next = prev
+        prev = head
+        head = nxt
+    return prev
+
+# fast/slow: middle & cycle
+slow = fast = head
+while fast and fast.next:
+    slow = slow.next; fast = fast.next.next</pre>
+        </div>
+        <pre class="dia">Reverse:
+  None <- 1    2 -> 3 -> None
+        prev  head
+  step: point head.next to prev, advance both
+
+Fast/Slow:
+  1 -> 2 -> 3 -> 4 -> 5
+  s         (slow +1)
+       f    (fast +2)  -> slow ends at middle</pre>
+      </div>
+    </section>
+
+    <!-- TREES -->
+    <section class="card" id="trees">
+      <h2><span class="ic">🌳</span> Trees (Binary Tree & BST)</h2>
+      <div class="when"><b>When:</b> hierarchical data. Solve for children, combine at node (recursion). BST → inorder = sorted.</div>
+      <div class="grid">
+        <div>
+          <h3 class="blk">Traversals</h3>
+          <pre>def inorder(n):                 # L, Node, R  (BST -> sorted)
+    if not n: return
+    inorder(n.left); visit(n); inorder(n.right)
+
+# BFS level order
+from collections import deque
+q = deque([root])
+while q:
+    for _ in range(len(q)):     # one level
+        n = q.popleft()
+        if n.left:  q.append(n.left)
+        if n.right: q.append(n.right)</pre>
+          <ul class="pts">
+            <li><b>Height/diameter:</b> return height bottom-up, update global.</li>
+            <li><b>LCA (BST):</b> walk down to the split point.</li>
+            <li><b>Validate BST:</b> pass (min,max) bounds down.</li>
+          </ul>
+        </div>
+        <pre class="dia">        1
+       / \
+      2   3
+     / \
+    4   5
+
+Pre : 1 2 4 5 3   (Node,L,R)
+In  : 4 2 5 1 3   (L,Node,R)
+Post: 4 5 2 3 1   (L,R,Node)
+BFS : 1 | 2 3 | 4 5</pre>
+      </div>
+    </section>
+
+    <!-- RECURSION / BACKTRACKING -->
+    <section class="card" id="backtracking">
+      <h2><span class="ic">🌿</span> Recursion & Backtracking</h2>
+      <div class="when"><b>When:</b> generate all subsets/permutations/combinations, grid paths, constraint puzzles (N-Queens, Sudoku).</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li>Template: <b>choose → explore → un-choose</b>.</li>
+            <li>Combos use a <code class="k">start</code> index; perms use a <code class="k">used[]</code>.</li>
+            <li>Sort to skip duplicates; prune early.</li>
+          </ul>
+          <pre>def backtrack(path, choices):
+    if is_goal(path):
+        res.append(path[:]); return
+    for i, c in enumerate(choices):
+        path.append(c)                 # choose
+        backtrack(path, next(choices,i))# explore
+        path.pop()                     # un-choose</pre>
+        </div>
+        <pre class="dia">subsets of [1,2,3] (include/exclude):
+                []
+          /            \
+        [1]             []
+       /    \          /   \
+    [1,2]   [1]      [2]    []
+     ... 2^n leaves</pre>
+      </div>
+    </section>
+
+    <!-- HEAP -->
+    <section class="card" id="heap">
+      <h2><span class="ic">⛰️</span> Heap / Priority Queue</h2>
+      <div class="when"><b>When:</b> "Top-K", "Kth largest/smallest", "median of stream", "merge k sorted".</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li>Python <code class="k">heapq</code> = <b>min-heap</b>; push <code class="k">-x</code> for max-heap.</li>
+            <li><b>Kth largest:</b> min-heap of size k → root is answer.</li>
+            <li><b>Median:</b> two heaps (max-heap low half, min-heap high half).</li>
+          </ul>
+          <pre>import heapq
+def kth_largest(nums, k):
+    h = []
+    for x in nums:
+        heapq.heappush(h, x)
+        if len(h) > k: heapq.heappop(h)
+    return h[0]                # size-k min-heap</pre>
+        </div>
+        <pre class="dia">Two-heap median:
+  maxHeap(low)      minHeap(high)
+   [3 2 1]   <-->    [4 5 6]
+     top=3            top=4
+  median = (3+4)/2 or top of larger heap</pre>
+      </div>
+    </section>
+
+    <!-- GRAPHS -->
+    <section class="card" id="graphs">
+      <h2><span class="ic">🕸️</span> Graphs</h2>
+      <div class="when"><b>When:</b> connectivity, paths, cycles, ordering. BFS = fewest edges; DFS = explore/cycle/topo.</div>
+      <div class="grid">
+        <div>
+          <pre>from collections import deque
+def bfs(start, adj):
+    seen = {start}; q = deque([start])
+    while q:
+        u = q.popleft()
+        for v in adj[u]:
+            if v not in seen:
+                seen.add(v); q.append(v)
+
+import heapq                    # Dijkstra (non-neg weights)
+def dijkstra(src, adj, n):
+    dist = [float('inf')]*n; dist[src]=0
+    pq = [(0, src)]
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d > dist[u]: continue
+        for v, w in adj[u]:
+            if d+w < dist[v]:
+                dist[v]=d+w; heapq.heappush(pq,(dist[v],v))
+    return dist</pre>
+        </div>
+        <div>
+          <ul class="pts">
+            <li><b>Topo sort (Kahn):</b> repeatedly remove 0 in-degree nodes.</li>
+            <li><b>Cycle (directed):</b> DFS 3-color OR topo fails.</li>
+            <li><b>Union-Find:</b> connectivity / MST (Kruskal).</li>
+          </ul>
+          <pre>parent = list(range(n))
+def find(x):
+    while parent[x]!=x:
+        parent[x]=parent[parent[x]]   # path compress
+        x=parent[x]
+    return x
+def union(a,b): parent[find(a)] = find(b)</pre>
+          <div class="tip"><b>Grid = graph:</b> neighbors = up/down/left/right; use multi-source BFS for "spread" problems.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRIE -->
+    <section class="card" id="trie">
+      <h2><span class="ic">🔤</span> Trie (Prefix Tree)</h2>
+      <div class="when"><b>When:</b> many prefix / word lookups, autocomplete, max-XOR (bitwise trie).</div>
+      <div class="grid">
+        <div>
+          <pre>class Trie:
+    def __init__(self): self.root = {}
+    def insert(self, w):
+        node = self.root
+        for c in w: node = node.setdefault(c, {})
+        node['$'] = True            # end marker
+    def search(self, w, prefix=False):
+        node = self.root
+        for c in w:
+            if c not in node: return False
+            node = node[c]
+        return True if prefix else '$' in node</pre>
+        </div>
+        <pre class="dia">insert "cat","car":
+   root
+    └ c
+      └ a
+        ├ t($)
+        └ r($)
+search prefix "ca" -> True</pre>
+      </div>
+    </section>
+
+    <!-- DP -->
+    <section class="card" id="dp">
+      <h2><span class="ic">🧮</span> Dynamic Programming</h2>
+      <div class="when"><b>When:</b> overlapping subproblems + optimal substructure. "count ways / min-max / can we".</div>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li><b>Steps:</b> define state → transition → base case → order.</li>
+            <li>Write <b>recursion + memo</b> first, then convert to tabulation.</li>
+            <li>Common states: index, (i,j) two seqs, (index, capacity), bitmask.</li>
+          </ul>
+          <pre>from functools import lru_cache
+@lru_cache(None)
+def solve(i, cap):              # top-down memo
+    if i == n or cap == 0: return 0
+    skip = solve(i+1, cap)
+    take = 0
+    if wt[i] <= cap:
+        take = val[i] + solve(i+1, cap-wt[i])
+    return max(skip, take)</pre>
+        </div>
+        <pre class="dia">1D (House Robber):
+  dp[i] = max(dp[i-1], dp[i-2]+a[i])
+
+2D grid paths:
+   1  1  1  1
+   1  2  3  4
+   1  3  6 10   dp[i][j]=dp[i-1][j]+dp[i][j-1]
+
+LCS table:
+      "" a b c
+   "" 0 0 0 0
+   a  0 1 1 1
+   c  0 1 1 2</pre>
+      </div>
+      <div class="tip"><b>Patterns:</b> Knapsack (take/skip) · LIS · LCS (match→diag) · Grid · Partition/MCM (split point k) · DP-on-trees (2 states) · Bitmask (visited set).</div>
+    </section>
+
+    <!-- GREEDY -->
+    <section class="card" id="greedy">
+      <h2><span class="ic">🎯</span> Greedy</h2>
+      <div class="when"><b>When:</b> local optimum → global optimum (must argue it). Usually sort first.</div>
+      <ul class="pts">
+        <li><b>Intervals:</b> sort by end; take earliest-finishing that fits (non-overlap / min removals / arrows).</li>
+        <li><b>Scheduling/profit:</b> sort + heap; pick best available now.</li>
+        <li><b>Jump game:</b> track farthest reachable index.</li>
+        <li>If greedy is hard to prove → suspect DP instead.</li>
+      </ul>
+    </section>
+
+    <!-- BIT -->
+    <section class="card" id="bits">
+      <h2><span class="ic">🔟</span> Bit Manipulation</h2>
+      <div class="grid">
+        <div>
+          <ul class="pts">
+            <li><code class="k">x &amp; 1</code> → last bit; <code class="k">x &gt;&gt; 1</code> → divide by 2.</li>
+            <li><code class="k">x &amp; (x-1)</code> → clears lowest set bit (count bits).</li>
+            <li><code class="k">a ^ a = 0</code>, <code class="k">a ^ 0 = a</code> → XOR cancels pairs.</li>
+            <li><code class="k">x &amp; -x</code> → isolates lowest set bit (Fenwick).</li>
+          </ul>
+        </div>
+        <pre class="dia">Single number (all pairs but one):
+  XOR everything -> pairs cancel -> answer
+
+Subsets via bits (n items):
+  for mask in range(1&lt;&lt;n):
+     pick i if mask &amp; (1&lt;&lt;i)</pre>
+      </div>
+    </section>
+
+    <!-- SORTING -->
+    <section class="card" id="sorting">
+      <h2><span class="ic">🔃</span> Sorting Summary</h2>
+      <table class="cx">
+        <tr><th>Algorithm</th><th>Time</th><th>Space</th><th>Stable</th><th>Use</th></tr>
+        <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td><td>linked lists, count inversions</td></tr>
+        <tr><td>Quick Sort</td><td>O(n log n) avg</td><td>O(log n)</td><td>No</td><td>in-place, quickselect Kth</td></tr>
+        <tr><td>Heap Sort</td><td>O(n log n)</td><td>O(1)</td><td>No</td><td>no recursion</td></tr>
+        <tr><td>Counting/Radix</td><td>O(n+k)</td><td>O(k)</td><td>Yes</td><td>small integer range</td></tr>
+      </table>
+      <div class="tip"><b>Quickselect:</b> average O(n) to find the Kth element without full sort (partition around pivot).</div>
+    </section>
+
+    <!-- INTERVIEW TIPS -->
+    <section class="card" id="tips">
+      <h2><span class="ic">✅</span> Interview Playbook</h2>
+      <ul class="pts">
+        <li><b>1. Clarify</b> — input ranges, dups, sorted?, empty/edge cases, expected complexity.</li>
+        <li><b>2. Brute force first</b> — state it, give its complexity, then optimize.</li>
+        <li><b>3. Match a pattern</b> — sorted? → two-ptr/BS. Contiguous? → window. Top-K? → heap. Overlapping subproblems? → DP.</li>
+        <li><b>4. Think out loud</b> — narrate the approach before coding.</li>
+        <li><b>5. Dry-run</b> a small example after coding; check edge cases (empty, 1 element, all same, overflow).</li>
+        <li><b>6. State complexity</b> — time &amp; space, and any trade-offs.</li>
+      </ul>
+      <div class="tip"><b>Pattern → trigger cheat:</b> "sorted / pair" → Two Pointers · "contiguous subarray" → Sliding Window / Prefix · "next greater / spans" → Monotonic Stack · "shortest path unweighted" → BFS · "all combinations" → Backtracking · "min/max ways" → DP · "Kth / top-K" → Heap · "prefix words" → Trie.</div>
+    </section>
+  </main>
+
+  <footer>Revise the day before · pair with the <a href="dsa.html">full roadmap</a> for practice links.</footer>
+
+  <script>
+    // build TOC from sections
+    const secs = [...document.querySelectorAll("section.card")];
+    const toc = document.getElementById("toc");
+    secs.forEach(s => {
+      const a = document.createElement("a");
+      a.href = "#" + s.id;
+      a.textContent = s.querySelector("h2").textContent.trim();
+      toc.appendChild(a);
+    });
+    // theme
+    const t = document.getElementById("themeToggle"), root = document.documentElement;
+    const saved = localStorage.getItem("dsa-theme");
+    if (saved === "dark" || (!saved && matchMedia("(prefers-color-scheme: dark)").matches)) { root.setAttribute("data-theme","dark"); t.textContent="☀️"; }
+    t.addEventListener("click", () => {
+      const d = root.getAttribute("data-theme")==="dark";
+      if(d){root.removeAttribute("data-theme");t.textContent="🌙";localStorage.setItem("dsa-theme","light");}
+      else{root.setAttribute("data-theme","dark");t.textContent="☀️";localStorage.setItem("dsa-theme","dark");}
+    });
+  </script>
+</body>
+</html>
