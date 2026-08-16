@@ -34,18 +34,36 @@
 
     /* Header */
     header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--border)}
-    .bar-in{max-width:860px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .bar-in{max-width:1160px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .logo{font-weight:800;font-size:1.1rem;letter-spacing:-.01em}.logo span{color:var(--primary)}
     .sp{flex:1}
-    select,.btn{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:border-color .15s,color .15s,transform .15s}
-    select{max-width:56vw}
+    .btn{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:border-color .15s,color .15s,transform .15s}
     .btn:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-1px)}
-    .prog{max-width:860px;margin:0 auto;padding:0 20px 12px}
+    .menu-btn{display:none;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.05rem;cursor:pointer}
+    .prog{max-width:1160px;margin:0 auto;padding:0 20px 12px}
     .ptrack{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
     .pfill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .35s ease}
     .plabel{font-size:.78rem;color:var(--muted);margin-top:6px;font-weight:500}
 
-    main{max-width:860px;margin:0 auto;padding:26px 20px 48px}
+    /* Layout: left sidebar + content */
+    .layout{max-width:1160px;margin:0 auto;display:flex;gap:28px;padding:0 20px}
+    .side{width:238px;flex:0 0 238px;position:sticky;top:92px;align-self:flex-start;max-height:calc(100vh - 110px);overflow-y:auto;padding:20px 0 30px}
+    .side-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin:0 0 10px 8px}
+    #topicNav{display:flex;flex-direction:column;gap:2px}
+    #topicNav a{display:block;padding:9px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:600;border:1px solid transparent;transition:background .12s,color .12s,border-color .12s;line-height:1.35}
+    #topicNav a:hover{background:var(--surface2);color:var(--text)}
+    #topicNav a.active{background:var(--primary-soft);color:var(--primary);border-color:color-mix(in srgb,var(--primary) 30%, transparent)}
+    .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:35}
+    .scrim.open{display:block}
+
+    main{flex:1;min-width:0;padding:24px 0 48px}
+    @media(max-width:860px){
+      .layout{padding:0}
+      .side{position:fixed;top:0;left:0;bottom:0;width:270px;background:var(--surface);border-right:1px solid var(--border);z-index:40;transform:translateX(-100%);transition:transform .25s;max-height:none;padding:20px 14px 30px;box-shadow:var(--shadow)}
+      .side.open{transform:none}
+      .menu-btn{display:inline-block}
+      main{padding:16px 20px 40px}
+    }
     h1.topic{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
     .intro{color:var(--text);background:linear-gradient(120deg,var(--primary-soft),transparent);border:1px solid var(--border);border-left:4px solid var(--primary);padding:14px 16px;border-radius:12px;margin-bottom:26px;font-size:1rem;line-height:1.7}
 
@@ -85,6 +103,7 @@
     .tag{font-family:"JetBrains Mono",monospace;font-size:.66rem;font-weight:700;padding:2px 7px;border-radius:6px}
     .tag.E{color:var(--e);background:var(--e-bg)}.tag.M{color:var(--m);background:var(--m-bg)}.tag.H{color:var(--h);background:var(--h-bg)}
     .pn{font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--muted)}
+    .pn.gfg{color:#2f8d46;font-weight:700}
 
     .nav{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
     footer{text-align:center;color:var(--muted);font-size:.82rem;padding:28px 20px 54px}
@@ -96,9 +115,9 @@
 <body>
   <header class="bar">
     <div class="bar-in">
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle topics">☰</button>
       <div class="logo">DSA <span>Study</span></div>
       <div class="sp"></div>
-      <select id="topicSel" aria-label="Choose topic"></select>
       <a class="btn" href="dsa.html">Roadmap</a>
       <a class="btn" href="dsa-cheatsheet.html">Cheat Sheet</a>
       <button class="btn" id="themeToggle">🌙</button>
@@ -109,7 +128,14 @@
     </div>
   </header>
 
-  <main id="main"></main>
+  <div class="scrim" id="scrim"></div>
+  <div class="layout">
+    <aside class="side" id="side">
+      <div class="side-title">Topics</div>
+      <nav id="topicNav"></nav>
+    </aside>
+    <main id="main"></main>
+  </div>
 
   <footer>Study one topic → read brief notes &amp; short code → solve the questions to test yourself. Progress syncs with the <a href="dsa.html">roadmap</a>.</footer>
 
@@ -124,21 +150,34 @@
     let current = params.get("topic");
     if (!topics.includes(current)) current = topics[0];
 
-    const sel = $("#topicSel");
-    topics.forEach(t => { const o=document.createElement("option"); o.value=t; o.textContent=t; if(t===current)o.selected=true; sel.appendChild(o); });
-    sel.addEventListener("change", () => { location.search = "?topic=" + encodeURIComponent(sel.value); });
+    // Left sidebar of clickable topics
+    const tnav = $("#topicNav");
+    topics.forEach(t => {
+      const a = document.createElement("a");
+      a.href = "?topic=" + encodeURIComponent(t);
+      a.textContent = t;
+      if (t === current) a.className = "active";
+      tnav.appendChild(a);
+    });
+    // Mobile drawer toggle
+    const menuBtn = $("#menuBtn"), side = $("#side"), scrim = $("#scrim");
+    function toggleSide() { side.classList.toggle("open"); scrim.classList.toggle("open"); }
+    if (menuBtn) menuBtn.addEventListener("click", toggleSide);
+    if (scrim) scrim.addEventListener("click", toggleSide);
 
     let topicTotal = 0, topicDone = 0;
 
     function problemEl(p) {
       const [num, slug, title, diff] = p;
-      const id = "lc" + num;
+      const isNum = typeof num === "number";
+      const id = isNum ? ("lc" + num) : ("g:" + slug);
+      const srcLabel = isNum ? ("#" + num) : "GFG";
       topicTotal++; if (solved[id]) topicDone++;
       const a = document.createElement("a");
       a.className = "prob" + (solved[id] ? " done" : "");
       a.href = LC(slug); a.target = "_blank"; a.rel = "noopener";
       a.innerHTML = `<input type="checkbox" ${solved[id] ? "checked" : ""}/>` +
-        `<span class="tag ${diff}">${diff}</span><span class="pn">#${num}</span><span class="pt">${title}</span>`;
+        `<span class="tag ${diff}">${diff}</span><span class="pn${isNum ? "" : " gfg"}">${srcLabel}</span><span class="pt">${title}</span>`;
       const cb = a.querySelector("input");
       cb.addEventListener("click", e => {
         e.preventDefault(); e.stopPropagation();
@@ -914,12 +953,12 @@ def quickselect(a, k):          # kth smallest (0-indexed)
     if (topicNode.p) blocks(topicNode, main);
 
     const idx = topics.indexOf(current);
-    const nav = document.createElement("div"); nav.className = "nav";
+    const navRow = document.createElement("div"); navRow.className = "nav";
     const prev = document.createElement("a"); prev.className = "btn";
     if (idx > 0) { prev.href = "?topic=" + encodeURIComponent(topics[idx-1]); prev.textContent = "← " + topics[idx-1]; } else prev.style.visibility="hidden";
     const next = document.createElement("a"); next.className = "btn";
     if (idx < topics.length-1) { next.href = "?topic=" + encodeURIComponent(topics[idx+1]); next.textContent = topics[idx+1] + " →"; } else next.style.visibility="hidden";
-    nav.append(prev, next); main.appendChild(nav);
+    navRow.append(prev, next); main.appendChild(navRow);
 
     updateProg();
 

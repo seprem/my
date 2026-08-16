@@ -150,10 +150,14 @@ bisect.insort(nums, x)            # insert keeping sorted` },
       [33, "search-in-rotated-sorted-array", "Search in Rotated Sorted Array", "M"],
       [34, "find-first-and-last-position-of-element-in-sorted-array", "First and Last Position", "M"],
     ]},
-    { n: "On answer (min/max feasible)", h: "Guess an answer X; write a monotone feasible(X) check; binary search the smallest/largest valid X.", note: "<b>Striver GFG classics (same technique):</b> Aggressive Cows, Allocate Books / Painters Partition, Nth Root of a Number, Kth Element of Two Sorted Arrays, Median of Row-wise Sorted Matrix.", p: [
+    { n: "On answer (min/max feasible)", h: "Guess an answer X; write a monotone feasible(X) check; binary search the smallest/largest valid X.",       note: "Same technique on classic Striver problems (GeeksforGeeks links below).", p: [
       [69, "sqrtx", "Sqrt(x)", "E"],
       [875, "koko-eating-bananas", "Koko Eating Bananas", "M"],
       [410, "split-array-largest-sum", "Split Array Largest Sum (Book Allocation)", "H"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/aggressive-cows/1", "Aggressive Cows", "M"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1", "Allocate Minimum Pages", "H"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/find-nth-root-of-m5843/1", "Nth Root of a Number", "E"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array1317/1", "Kth Element of Two Sorted Arrays", "M"],
     ]},
     { n: "Peaks, matrix & special", h: "Find Peak: compare mid with mid+1. 2D matrix: treat as flattened sorted array or step-search.", p: [
       [162, "find-peak-element", "Find Peak Element", "M"],
@@ -278,11 +282,118 @@ bisect.insort(nums, x)            # insert keeping sorted` },
 
   /* ===================== BINARY TREE (Striver BT I–III) ===================== */
   { n: "Binary Tree", h: "Everything is recursion: solve for children, combine for the node. Know all 3 DFS orders + BFS by heart.", c: [
-    { n: "Traversals", h: "Pre=Node,L,R · In=L,Node,R · Post=L,R,Node. Do recursive first, then iterative with a stack.", note: "<b>Striver GFG classics:</b> Morris Inorder/Preorder (O(1) space), Top View, Bottom View, Boundary Traversal, Vertical Order.", p: [
+    { n: "Build & Represent (from a list)", h: "LeetCode gives trees as a <b>level-order list</b> with <code>null</code> for missing nodes. Build it with a queue. In an <b>array (complete-tree) representation</b>, node at index <code>i</code> has children <code>2i+1</code>, <code>2i+2</code> and parent <code>(i-1)//2</code>.",
+      code:
+`class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val; self.left = left; self.right = right
+
+# Build a tree from a level-order list  ([1,2,3,None,4] etc.)
+from collections import deque
+def build_tree(vals):
+    if not vals or vals[0] is None:
+        return None
+    root = TreeNode(vals[0]); q = deque([root]); i = 1
+    while q and i < len(vals):
+        node = q.popleft()
+        if i < len(vals) and vals[i] is not None:      # left child
+            node.left = TreeNode(vals[i]); q.append(node.left)
+        i += 1
+        if i < len(vals) and vals[i] is not None:      # right child
+            node.right = TreeNode(vals[i]); q.append(node.right)
+        i += 1
+    return root
+
+# Array representation of a COMPLETE tree (like a heap):
+#   arr[i]        -> the node itself  (direct O(1) access)
+#   left  child   -> arr[2*i + 1]
+#   right child   -> arr[2*i + 2]
+#   parent        -> arr[(i - 1) // 2]
+def left(i):  return 2*i + 1
+def right(i): return 2*i + 2
+def parent(i): return (i - 1) // 2` },
+    { n: "Traversals", h: "Pre=Node,L,R · In=L,Node,R · Post=L,R,Node. Do recursive first, then iterative with a stack.", p: [
       [94, "binary-tree-inorder-traversal", "Inorder Traversal", "E"],
       [144, "binary-tree-preorder-traversal", "Preorder Traversal", "E"],
       [145, "binary-tree-postorder-traversal", "Postorder Traversal", "E"],
     ]},
+    { n: "Morris, Views & Boundary (Striver)", h: "<b>Morris</b> traversal = O(1) space via temporary threads. <b>Views</b> (top/bottom) sort by <i>horizontal distance</i> (BFS). <b>Vertical order</b> sorts by (column, row, value). Top/Bottom View &amp; Boundary have no free LeetCode problem — practice on GFG; Vertical Order is LC 987.",
+      code:
+`# Morris Inorder — O(1) space (temporary threads)
+def morris_inorder(root):
+    out, cur = [], root
+    while cur:
+        if not cur.left:
+            out.append(cur.val); cur = cur.right
+        else:
+            pre = cur.left
+            while pre.right and pre.right is not cur: pre = pre.right
+            if not pre.right:
+                pre.right = cur; cur = cur.left       # create thread
+            else:
+                pre.right = None; out.append(cur.val); cur = cur.right
+    return out
+
+from collections import deque, defaultdict
+# Top View: first node seen per column (BFS, left->right)
+def top_view(root):
+    if not root: return []
+    seen = {}; q = deque([(root, 0)])
+    while q:
+        node, hd = q.popleft()
+        if hd not in seen: seen[hd] = node.val
+        if node.left:  q.append((node.left,  hd-1))
+        if node.right: q.append((node.right, hd+1))
+    return [seen[k] for k in sorted(seen)]
+
+# Bottom View: last node seen per column
+def bottom_view(root):
+    if not root: return []
+    seen = {}; q = deque([(root, 0)])
+    while q:
+        node, hd = q.popleft()
+        seen[hd] = node.val                           # overwrite -> keep last
+        if node.left:  q.append((node.left,  hd-1))
+        if node.right: q.append((node.right, hd+1))
+    return [seen[k] for k in sorted(seen)]
+
+# Vertical Order (LC 987): sort by (col, row, val)
+def vertical_order(root):
+    cols = defaultdict(list); q = deque([(root, 0, 0)])
+    while q:
+        node, r, c = q.popleft()
+        if node:
+            cols[c].append((r, node.val))
+            q.append((node.left,  r+1, c-1))
+            q.append((node.right, r+1, c+1))
+    return [[v for _, v in sorted(cols[c])] for c in sorted(cols)]
+
+# Boundary Traversal (anti-clockwise): left edge + leaves + right edge reversed
+def boundary(root):
+    if not root: return []
+    leaf = lambda n: not n.left and not n.right
+    res = [root.val]
+    n = root.left                                     # left boundary (no leaves)
+    while n:
+        if not leaf(n): res.append(n.val)
+        n = n.left or n.right
+    def leaves(n):                                    # all leaves L->R
+        if not n: return
+        if leaf(n): res.append(n.val); return
+        leaves(n.left); leaves(n.right)
+    if not leaf(root): leaves(root.left); leaves(root.right)
+    tmp = []; n = root.right                          # right boundary bottom-up
+    while n:
+        if not leaf(n): tmp.append(n.val)
+        n = n.right or n.left
+    return res + tmp[::-1]`,
+      p: [
+        [987, "vertical-order-traversal-of-a-binary-tree", "Vertical Order Traversal", "H"],
+        [314, "binary-tree-vertical-order-traversal", "Vertical Order (basic)", "M"],
+        ["GFG", "https://www.geeksforgeeks.org/problems/top-view-of-binary-tree/1", "Top View of Binary Tree", "M"],
+        ["GFG", "https://www.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1", "Bottom View of Binary Tree", "M"],
+        ["GFG", "https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1", "Boundary Traversal", "M"],
+      ]},
     { n: "BFS / Views", h: "Level order with a queue. Right/Left view = last/first node per level. Track level index.", p: [
       [102, "binary-tree-level-order-traversal", "Level Order Traversal", "M"],
       [199, "binary-tree-right-side-view", "Right Side View", "M"],
@@ -330,10 +441,12 @@ bisect.insort(nums, x)            # insert keeping sorted` },
       [653, "two-sum-iv-input-is-a-bst", "Two Sum IV (BST)", "E"],
       [99, "recover-binary-search-tree", "Recover BST", "M"],
     ]},
-    { n: "LCA / Successor / Construct", h: "LCA in BST: walk down until the split point. Build BST from preorder using upper-bound recursion.", note: "<b>Striver GFG classics:</b> Floor & Ceil in BST, Inorder Predecessor/Successor, Largest BST in a Binary Tree.", p: [
+    { n: "LCA / Successor / Construct", h: "LCA in BST: walk down until the split point. Build BST from preorder using upper-bound recursion.", p: [
       [235, "lowest-common-ancestor-of-a-binary-search-tree", "LCA of a BST", "M"],
       [1008, "construct-binary-search-tree-from-preorder-traversal", "Build BST from Preorder", "M"],
       [173, "binary-search-tree-iterator", "BST Iterator", "M"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/floor-in-bst/1", "Floor in BST", "M"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/largest-bst/1", "Largest BST in a Binary Tree", "H"],
     ]},
   ]},
 
@@ -370,10 +483,14 @@ bisect.insort(nums, x)            # insert keeping sorted` },
       [435, "non-overlapping-intervals", "Non-overlapping Intervals", "M"],
       [452, "minimum-number-of-arrows-to-burst-balloons", "Min Arrows to Burst Balloons", "M"],
     ]},
-    { n: "Scheduling / Profit (heap)", h: "Combine sorting with a heap: pick the most profitable currently-available job.", note: "<b>Striver GFG classics (no LeetCode equivalent):</b> N Meetings in One Room, Minimum Platforms, Job Sequencing, Fractional Knapsack.", p: [
+    { n: "Scheduling / Profit (heap)", h: "Combine sorting with a heap: pick the most profitable currently-available job. Classic Striver problems below link to GeeksforGeeks.", p: [
       [860, "lemonade-change", "Lemonade Change", "E"],
       [621, "task-scheduler", "Task Scheduler", "M"],
       [502, "ipo", "IPO", "H"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1", "N Meetings in One Room", "E"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/minimum-platforms-1587115620/1", "Minimum Platforms", "M"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1", "Job Sequencing Problem", "M"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1", "Fractional Knapsack", "M"],
     ]},
     { n: "Jump / Reach", h: "Track the farthest reachable index; greedily extend the current jump range.", p: [
       [55, "jump-game", "Jump Game", "M"],
@@ -429,10 +546,12 @@ bisect.insort(nums, x)            # insert keeping sorted` },
       [1584, "min-cost-to-connect-all-points", "Min Cost Connect Points (MST)", "M"],
       [1319, "number-of-operations-to-make-network-connected", "Make Network Connected", "M"],
     ]},
-    { n: "Advanced (bridges / SCC / bipartite)", h: "Tarjan for bridges/articulation & SCC. Bipartite = 2-coloring via BFS/DFS.", note: "<b>Striver GFG classics:</b> Kosaraju's SCC, Tarjan's Bridges & Articulation Points, Bellman-Ford negative cycle.", p: [
+    { n: "Advanced (bridges / SCC / bipartite)", h: "Tarjan for bridges/articulation & SCC. Bipartite = 2-coloring via BFS/DFS.", p: [
       [785, "is-graph-bipartite", "Is Graph Bipartite?", "M"],
       [1192, "critical-connections-in-a-network", "Critical Connections (bridges)", "H"],
       [329, "longest-increasing-path-in-a-matrix", "Longest Increasing Path (DFS+memo)", "H"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1", "Strongly Connected Components (Kosaraju)", "H"],
+      ["GFG", "https://www.geeksforgeeks.org/problems/articulation-point-1/1", "Articulation Point", "H"],
     ]},
   ]},
 
