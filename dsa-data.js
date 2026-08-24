@@ -571,6 +571,54 @@ def delete(root, key):
       ["GFG", "https://www.geeksforgeeks.org/problems/floor-in-bst/1", "Floor in BST", "M"],
       ["GFG", "https://www.geeksforgeeks.org/problems/largest-bst/1", "Largest BST in a Binary Tree", "H"],
     ]},
+    { n: "Self-Balancing BSTs (AVL / Red-Black)", h: "A plain BST can degrade to a linked list (O(n)) if inserts come sorted. Self-balancing trees keep height <b>O(log n)</b> via rotations, so search/insert/delete stay O(log n). Rarely coded in interviews — but a common <b>theory / system-design</b> question.",
+      note: "<b>AVL tree</b> — <i>balance factor</i> = height(left) − height(right) must stay in {−1, 0, 1}. After an insert, if a node becomes unbalanced there are 4 cases:<br>" +
+        "• <b>LL</b> (left-heavy, inserted in left-left) → single <b>right rotation</b><br>" +
+        "• <b>RR</b> (right-heavy, right-right) → single <b>left rotation</b><br>" +
+        "• <b>LR</b> (left-right) → <b>left</b> rotate child, then <b>right</b> rotate node<br>" +
+        "• <b>RL</b> (right-left) → <b>right</b> rotate child, then <b>left</b> rotate node<br>" +
+        "AVL is <b>strictly balanced</b> → fastest lookups, but more rotations on insert/delete.<br><br>" +
+        "<b>Red-Black tree</b> — nodes are colored red/black with rules: (1) root is black, (2) a red node's children are black (no two reds in a row), (3) every root→null path has the same number of black nodes. This guarantees height ≤ 2·log₂(n+1). <b>Fewer rotations</b> than AVL on insert/delete → better for write-heavy workloads.<br><br>" +
+        "<b>AVL vs Red-Black:</b> AVL = more balanced → faster reads; Red-Black = fewer rotations → faster writes. <b>Used in:</b> Java <code>TreeMap</code>/<code>TreeSet</code>, C++ <code>std::map</code>/<code>std::set</code>, and the Linux CFS scheduler (all Red-Black). Database indexes typically use <b>B/B+ trees</b> (a related idea for disk).",
+      code:
+`# AVL insertion with rotations (Python)
+class AVLNode:
+    def __init__(self, val):
+        self.val = val; self.left = self.right = None
+        self.height = 1
+
+def h(n):  return n.height if n else 0
+def bf(n): return h(n.left) - h(n.right) if n else 0        # balance factor
+def upd(n): n.height = 1 + max(h(n.left), h(n.right))
+
+def right_rotate(y):          # fixes LL
+    x = y.left; T = x.right
+    x.right = y; y.left = T
+    upd(y); upd(x)
+    return x                  # x is the new subtree root
+
+def left_rotate(x):           # fixes RR
+    y = x.right; T = y.left
+    y.left = x; x.right = T
+    upd(x); upd(y)
+    return y
+
+def insert(root, key):
+    if not root:
+        return AVLNode(key)
+    if key < root.val: root.left  = insert(root.left,  key)
+    else:              root.right = insert(root.right, key)
+    upd(root)
+    balance = bf(root)
+    if balance > 1 and key < root.left.val:            # LL
+        return right_rotate(root)
+    if balance < -1 and key > root.right.val:          # RR
+        return left_rotate(root)
+    if balance > 1 and key > root.left.val:            # LR
+        root.left = left_rotate(root.left); return right_rotate(root)
+    if balance < -1 and key < root.right.val:          # RL
+        root.right = right_rotate(root.right); return left_rotate(root)
+    return root` },
   ]},
 
   /* ===================== RECURSION & BACKTRACKING (Striver) ===================== */
