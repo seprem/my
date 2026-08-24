@@ -317,9 +317,11 @@ def parent(i): return (i - 1) // 2` },
       [144, "binary-tree-preorder-traversal", "Preorder Traversal", "E"],
       [145, "binary-tree-postorder-traversal", "Postorder Traversal", "E"],
     ]},
-    { n: "Morris, Views & Boundary (Striver)", h: "<b>Morris</b> traversal = O(1) space via temporary threads. <b>Views</b> (top/bottom) sort by <i>horizontal distance</i> (BFS). <b>Vertical order</b> sorts by (column, row, value). Top/Bottom View &amp; Boundary have no free LeetCode problem — practice on GFG; Vertical Order is LC 987.",
+    { n: "Morris, Views & Boundary (Striver)", h: "<b>Morris</b> traversal gives O(1) space using temporary <i>threads</i> (link each node's inorder-predecessor.right back to it). <b>Two types:</b> (1) <b>Inorder</b> — visit when you <i>remove</i> the thread; (2) <b>Preorder</b> — visit when you <i>create</i> the thread. <b>Views</b> (top/bottom) sort by horizontal distance via BFS; <b>Vertical order</b> sorts by (column, row, value). Top/Bottom View &amp; Boundary have no free LeetCode problem — practice on GFG; Vertical Order is LC 987.",
       code:
-`# Morris Inorder — O(1) space (temporary threads)
+`# ---- Morris has TWO types: Inorder & Preorder (both O(1) space) ----
+
+# Type 1: Morris INORDER  (L, Node, R) -> visit when REMOVING the thread
 def morris_inorder(root):
     out, cur = [], root
     while cur:
@@ -329,9 +331,26 @@ def morris_inorder(root):
             pre = cur.left
             while pre.right and pre.right is not cur: pre = pre.right
             if not pre.right:
-                pre.right = cur; cur = cur.left       # create thread
+                pre.right = cur; cur = cur.left        # create thread, go left
             else:
-                pre.right = None; out.append(cur.val); cur = cur.right
+                pre.right = None                       # remove thread
+                out.append(cur.val); cur = cur.right   # visit here (inorder)
+    return out
+
+# Type 2: Morris PREORDER (Node, L, R) -> visit when CREATING the thread
+def morris_preorder(root):
+    out, cur = [], root
+    while cur:
+        if not cur.left:
+            out.append(cur.val); cur = cur.right
+        else:
+            pre = cur.left
+            while pre.right and pre.right is not cur: pre = pre.right
+            if not pre.right:
+                out.append(cur.val)                    # visit here (preorder)
+                pre.right = cur; cur = cur.left
+            else:
+                pre.right = None; cur = cur.right
     return out
 
 from collections import deque, defaultdict
@@ -415,13 +434,90 @@ def boundary(root):
       [100, "same-tree", "Same Tree", "E"],
       [116, "populating-next-right-pointers-in-each-node", "Populate Next Right Pointers", "M"],
     ]},
-    { n: "Construction & Serialize (Striver)", h: "Build from preorder+inorder: preorder gives root, inorder splits left/right. Inorder+postorder: root is last of postorder. Serialize with preorder + null markers.", p: [
+    { n: "Construction & Serialize (Striver)", h: "Preorder gives the root; inorder splits left/right. Inorder+postorder: root is the last of postorder. Serialize with preorder + null markers.",
+      note: "<b>Concept — Build Tree from Preorder + Inorder (LC 105):</b><br>" +
+        "• <b>Preorder</b> visits <i>Root → Left → Right</i>, so <code>preorder[0]</code> is always the <b>root</b> of the current subtree.<br>" +
+        "• <b>Inorder</b> visits <i>Left → Root → Right</i>. Find the root's position <code>i</code> in inorder: everything <b>left of i</b> is the <b>left subtree</b>, everything <b>right of i</b> is the <b>right subtree</b>.<br>" +
+        "• That split count also tells you how to slice preorder (the next <code>i</code> values after the root belong to the left subtree). <b>Recurse</b> on both halves.<br>" +
+        "• The simple version below slices lists and calls <code>index()</code> each time → clean but <b>O(n²)</b>. The optimized version precomputes a <code>value → inorder-index</code> map (O(1) lookup) and walks a single preorder pointer → <b>O(n)</b>.<br>" +
+        "• <b>Inorder + Postorder (LC 106):</b> same idea but the root is <code>postorder[-1]</code>, and you must build the <b>right subtree before the left</b> (consume postorder from the back).",
+      code:
+`# --- Simple & intuitive (O(n^2): index() scan + slicing copies) ---
+def buildTree(preorder, inorder):
+    if not preorder or not inorder:
+        return None
+    root = TreeNode(preorder[0])              # 1st preorder value = root
+    i = inorder.index(root.val)               # split point in inorder
+    root.left  = buildTree(preorder[1:i+1], inorder[:i])   # left subtree
+    root.right = buildTree(preorder[i+1:],  inorder[i+1:]) # right subtree
+    return root
+
+# --- Optimized O(n): hashmap for inorder index + a moving preorder pointer ---
+def buildTree_fast(preorder, inorder):
+    idx = {v: i for i, v in enumerate(inorder)}   # value -> position in inorder
+    pre = 0
+    def build(lo, hi):                            # inorder bounds [lo, hi]
+        nonlocal pre
+        if lo > hi:
+            return None
+        root = TreeNode(preorder[pre]); pre += 1  # next preorder value = root
+        mid = idx[root.val]                       # its split point in inorder
+        root.left  = build(lo, mid - 1)           # build LEFT first (preorder!)
+        root.right = build(mid + 1, hi)
+        return root
+    return build(0, len(inorder) - 1)`,
+      p: [
       [105, "construct-binary-tree-from-preorder-and-inorder-traversal", "Build Tree (Pre+In)", "M"],
       [106, "construct-binary-tree-from-inorder-and-postorder-traversal", "Build Tree (In+Post)", "M"],
       [114, "flatten-binary-tree-to-linked-list", "Flatten Tree to Linked List", "M"],
       [297, "serialize-and-deserialize-binary-tree", "Serialize & Deserialize", "H"],
     ]},
-    { n: "Misc (distance-K, width, complete count)", h: "Convert tree to graph (parent pointers) for distance-K BFS. Count complete tree nodes in O(log²n).", p: [
+    { n: "Misc (distance-K, width, complete count)", h: "Convert tree to graph (parent pointers) for distance-K BFS. Count complete tree nodes in O(log²n).",
+      note: "<b>Max Width of Binary Tree (LC 662):</b> Give each node a position index like a <b>heap</b> — root = 0, and a node at index <code>i</code> has children <code>2·i</code> (left) and <code>2·i+1</code> (right). The width of a level = <code>lastIndex − firstIndex + 1</code>; the answer is the max over all levels. Both DFS and BFS work — BFS is the natural fit (process level by level; the first node's index is the level's leftmost, the last dequeued is the rightmost). <br><b>Overflow tip:</b> in fixed-int languages, subtract the level's first index from every index to keep numbers small (Python big-ints don't overflow, so it's optional).",
+      code:
+`from collections import deque
+
+# LC 662 — Maximum Width of Binary Tree
+# Index nodes like a heap: node i -> left = 2*i, right = 2*i + 1.
+# Level width = last index - first index + 1.
+
+# ---- BFS (level by level) — recommended ----
+def width_bfs(root):
+    if not root: return 0
+    q = deque([(root, 0)]); best = 0
+    while q:
+        _, first = q[0]                       # leftmost index on this level
+        for _ in range(len(q)):
+            node, idx = q.popleft()
+            if node.left:  q.append((node.left,  2 * idx))
+            if node.right: q.append((node.right, 2 * idx + 1))
+        best = max(best, idx - first + 1)      # idx = last node dequeued
+    return best
+
+# ---- DFS (record the first index seen at each depth) ----
+def width_dfs(root):
+    first = {}; best = 0
+    def dfs(node, depth, idx):
+        nonlocal best
+        if not node: return
+        if depth not in first: first[depth] = idx   # leftmost at this depth
+        best = max(best, idx - first[depth] + 1)
+        dfs(node.left,  depth + 1, 2 * idx)
+        dfs(node.right, depth + 1, 2 * idx + 1)
+    dfs(root, 0, 0)
+    return best
+
+# ---- Count nodes in a COMPLETE tree — O(log^2 n) ----
+def count_nodes(root):
+    if not root: return 0
+    def h(n, left):
+        d = 0
+        while n: n = n.left if left else n.right; d += 1
+        return d
+    lh, rh = h(root, True), h(root, False)
+    if lh == rh: return (1 << lh) - 1           # perfect subtree
+    return 1 + count_nodes(root.left) + count_nodes(root.right)`,
+      p: [
       [662, "maximum-width-of-binary-tree", "Maximum Width of Binary Tree", "M"],
       [863, "all-nodes-distance-k-in-binary-tree", "All Nodes Distance K", "M"],
       [222, "count-complete-tree-nodes", "Count Complete Tree Nodes", "E"],
@@ -430,11 +526,38 @@ def boundary(root):
 
   /* ===================== BINARY SEARCH TREE (Striver BST I–II) ===================== */
   { n: "Binary Search Tree", h: "BST invariant: left < node < right. Inorder traversal gives sorted order — exploit it everywhere.", c: [
-    { n: "Search / Insert / Delete", h: "Compare with node and go left/right (O(height)). Delete: replace with inorder successor.", p: [
+    { n: "Search / Insert / Delete", h: "Compare with node and go left/right (O(height)). Delete has 3 cases: leaf → remove; one child → return that child; two children → replace value with the <b>inorder successor</b> (smallest node in the right subtree), then delete that successor.", p: [
       [700, "search-in-a-binary-search-tree", "Search in a BST", "E"],
       [701, "insert-into-a-binary-search-tree", "Insert into a BST", "M"],
       [450, "delete-node-in-a-bst", "Delete Node in a BST", "M"],
-    ]},
+    ], code:
+`def search(root, key):
+    while root and root.val != key:
+        root = root.left if key < root.val else root.right
+    return root
+
+def insert(root, val):
+    if not root: return TreeNode(val)
+    if val < root.val: root.left  = insert(root.left,  val)
+    else:              root.right = insert(root.right, val)
+    return root
+
+def delete(root, key):
+    if not root:
+        return None
+    if key < root.val:
+        root.left = delete(root.left, key)
+    elif key > root.val:
+        root.right = delete(root.right, key)
+    else:                                  # found the node to delete
+        if not root.left:  return root.right   # 0 or 1 child (right only)
+        if not root.right: return root.left    # 1 child (left only)
+        succ = root.right                      # inorder successor = min of right subtree
+        while succ.left:
+            succ = succ.left
+        root.val = succ.val                    # copy successor value up
+        root.right = delete(root.right, succ.val)  # delete the successor
+    return root` },
     { n: "Validate / Kth / Two-Sum", h: "Validate with (min,max) bounds passed down. Kth smallest = inorder counting. Two-Sum in BST: inorder → two pointers, or set.", p: [
       [98, "validate-binary-search-tree", "Validate BST", "M"],
       [230, "kth-smallest-element-in-a-bst", "Kth Smallest in BST", "M"],
