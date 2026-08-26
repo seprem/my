@@ -724,7 +724,64 @@ def search(node, key):
       [994, "rotting-oranges", "Rotting Oranges (multi-source BFS)", "M"],
       [417, "pacific-atlantic-water-flow", "Pacific Atlantic Water Flow", "M"],
     ]},
-    { n: "Cycle Detection", h: "Directed: DFS colors (white/gray/black) or Kahn's. Undirected: DSU or DFS with parent.", p: [
+    { n: "Cycle Detection", h: "Directed: DFS colors (white/gray/black) or Kahn's. Undirected: DSU or DFS with parent.",
+      code:
+`# DIRECTED — DFS 3-color (0=unseen, 1=in current path, 2=done)
+def has_cycle_directed(n, adj):
+    state = [0] * n
+    def dfs(u):
+        state[u] = 1
+        for v in adj[u]:
+            if state[v] == 1: return True          # back-edge -> cycle
+            if state[v] == 0 and dfs(v): return True
+        state[u] = 2
+        return False
+    return any(state[i] == 0 and dfs(i) for i in range(n))
+
+# DIRECTED — Kahn's algorithm (BFS on in-degree).
+# Repeatedly remove nodes with in-degree 0; if some remain, there's a cycle.
+from collections import deque
+def has_cycle_kahn(n, adj):
+    indeg = [0] * n
+    for u in range(n):
+        for v in adj[u]:
+            indeg[v] += 1
+    q = deque(i for i in range(n) if indeg[i] == 0)
+    processed = 0
+    while q:
+        u = q.popleft(); processed += 1
+        for v in adj[u]:
+            indeg[v] -= 1
+            if indeg[v] == 0: q.append(v)
+    return processed != n          # couldn't process all => cycle
+    # (the order in which nodes leave q is a valid topological sort)
+
+# UNDIRECTED — DFS with parent (visited & not parent => cycle)
+def has_cycle_undirected(n, adj):
+    seen = [False] * n
+    def dfs(u, parent):
+        seen[u] = True
+        for v in adj[u]:
+            if not seen[v]:
+                if dfs(v, u): return True
+            elif v != parent:
+                return True
+        return False
+    return any(not seen[i] and dfs(i, -1) for i in range(n))
+
+# UNDIRECTED — Union-Find (both ends already in same set => cycle)
+def has_cycle_dsu(n, edges):
+    parent = list(range(n))
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]; x = parent[x]
+        return x
+    for u, v in edges:
+        ru, rv = find(u), find(v)
+        if ru == rv: return True
+        parent[ru] = rv
+    return False`,
+      p: [
       [207, "course-schedule", "Course Schedule (directed)", "M"],
       [684, "redundant-connection", "Redundant Connection (undirected)", "M"],
       [802, "find-eventual-safe-states", "Find Eventual Safe States", "M"],
