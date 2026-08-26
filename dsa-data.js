@@ -619,6 +619,33 @@ def insert(root, key):
     if balance < -1 and key < root.right.val:          # RL
         root.right = right_rotate(root.right); return left_rotate(root)
     return root` },
+    { n: "B-Tree / B+ Tree (disk-based)", h: "Balanced trees built for <b>disk/SSD</b>, not RAM. A node holds <b>many keys</b> (= one disk page), so the tree is very <b>shallow</b> → far fewer disk reads than a BST/AVL. This is what powers <b>database indexes</b>.",
+      note: "<b>Why not a BST/AVL for a database?</b> A BST stores one key per node, so its height is ~log₂(n) — for a billion rows that's ~30 levels = ~30 disk seeks. A B-tree packs hundreds of keys per node (one disk page), so height is ~log₍ₘ₎(n) — often just <b>3–4 levels</b> = 3–4 disk reads. Disk I/O dominates, so fewer, larger nodes win.<br><br>" +
+        "<b>B-tree properties (order m):</b> each internal node has up to <code>m</code> children and <code>m−1</code> sorted keys; <b>all leaves are at the same depth</b>; it stays balanced by <b>splitting</b> a node on overflow and <b>borrowing/merging</b> on underflow. Search/insert/delete are O(log n) with a tiny constant.<br><br>" +
+        "<b>B+ tree (what most DBs actually use):</b> all <b>data lives in the leaves</b>; internal nodes hold only routing keys; and the <b>leaves are linked together</b>. This makes <b>range scans</b> and ordered/sequential reads very fast (walk the leaf linked-list). Used by MySQL <b>InnoDB</b>, PostgreSQL, and many filesystems.<br><br>" +
+        "<b>B-tree vs B+ tree:</b> B-tree can store data in internal nodes (point lookups may end early higher up); B+ tree keeps all data in leaves (uniform lookups + fast ranges). No standard LeetCode/GFG problem — this is a <b>system-design / theory</b> topic.",
+      code:
+`# Conceptual B-tree node + search (real DBs use B+ trees on disk pages)
+class BTreeNode:
+    def __init__(self, leaf=False):
+        self.keys = []          # sorted keys in this node
+        self.children = []      # for internal node: len == len(keys)+1
+        self.leaf = leaf
+
+def search(node, key):
+    i = 0
+    while i < len(node.keys) and key > node.keys[i]:   # scan keys in node
+        i += 1
+    if i < len(node.keys) and node.keys[i] == key:
+        return (node, i)                # found
+    if node.leaf:
+        return None                     # not present
+    return search(node.children[i], key)   # descend to the correct child
+
+# Height intuition:
+#   BST / AVL : height ~ log2(n)      -> ~30 levels for 1e9 keys
+#   B-tree    : height ~ log_m(n)     -> ~3-4 levels (m = keys/page)
+# Fewer levels = fewer disk reads = why databases use B/B+ trees.` },
   ]},
 
   /* ===================== RECURSION & BACKTRACKING (Striver) ===================== */
