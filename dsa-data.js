@@ -724,53 +724,43 @@ def search(node, key):
       [994, "rotting-oranges", "Rotting Oranges (multi-source BFS)", "M"],
       [417, "pacific-atlantic-water-flow", "Pacific Atlantic Water Flow", "M"],
     ]},
-    { n: "Cycle Detection", h: "Directed: DFS colors (white/gray/black) or Kahn's. Undirected: DSU or DFS with parent.",
+    { n: "Cycle Detection", h: "<b>Undirected:</b> DFS/BFS tracking the <b>parent</b> — a visited neighbor that isn't the parent = cycle (or use DSU). <b>Directed:</b> DFS with <b>visited + rec_stack</b> — an edge back to a node in the current path = cycle (or Kahn's: if processed ≠ V, there's a cycle).",
       code:
-`# DIRECTED — DFS 3-color (0=unseen, 1=in current path, 2=done)
-def has_cycle_directed(n, adj):
-    state = [0] * n
-    def dfs(u):
-        state[u] = 1
-        for v in adj[u]:
-            if state[v] == 1: return True          # back-edge -> cycle
-            if state[v] == 0 and dfs(v): return True
-        state[u] = 2
-        return False
-    return any(state[i] == 0 and dfs(i) for i in range(n))
+`from collections import deque
 
-# DIRECTED — Kahn's algorithm (BFS on in-degree).
-# Repeatedly remove nodes with in-degree 0; if some remain, there's a cycle.
-from collections import deque
-def has_cycle_kahn(n, adj):
-    indeg = [0] * n
-    for u in range(n):
-        for v in adj[u]:
-            indeg[v] += 1
-    q = deque(i for i in range(n) if indeg[i] == 0)
-    processed = 0
-    while q:
-        u = q.popleft(); processed += 1
-        for v in adj[u]:
-            indeg[v] -= 1
-            if indeg[v] == 0: q.append(v)
-    return processed != n          # couldn't process all => cycle
-    # (the order in which nodes leave q is a valid topological sort)
+# ============ UNDIRECTED ============
+# Hint: use visited + parent. A visited neighbor that isn't the parent = cycle.
 
-# UNDIRECTED — DFS with parent (visited & not parent => cycle)
-def has_cycle_undirected(n, adj):
+# Undirected — DFS
+def cyc_undirected_dfs(n, adj):
     seen = [False] * n
     def dfs(u, parent):
         seen[u] = True
         for v in adj[u]:
             if not seen[v]:
                 if dfs(v, u): return True
-            elif v != parent:
+            elif v != parent:            # visited & not parent -> cycle
                 return True
         return False
     return any(not seen[i] and dfs(i, -1) for i in range(n))
 
-# UNDIRECTED — Union-Find (both ends already in same set => cycle)
-def has_cycle_dsu(n, edges):
+# Undirected — BFS (queue stores (node, parent))
+def cyc_undirected_bfs(n, adj):
+    seen = [False] * n
+    for s in range(n):
+        if seen[s]: continue
+        seen[s] = True; q = deque([(s, -1)])
+        while q:
+            u, par = q.popleft()
+            for v in adj[u]:
+                if not seen[v]:
+                    seen[v] = True; q.append((v, u))
+                elif v != par:
+                    return True
+    return False
+
+# Undirected — Union-Find (edge whose ends are already joined = cycle)
+def cyc_undirected_dsu(n, edges):
     parent = list(range(n))
     def find(x):
         while parent[x] != x:
@@ -780,13 +770,81 @@ def has_cycle_dsu(n, edges):
         ru, rv = find(u), find(v)
         if ru == rv: return True
         parent[ru] = rv
-    return False`,
+    return False
+
+# ============ DIRECTED ============
+# Hint (DFS): visited + rec_stack (nodes on the current path).
+
+# Directed — DFS
+def cyc_directed_dfs(n, adj):
+    visited = [False] * n; rec = [False] * n     # rec = in current path
+    def dfs(u):
+        visited[u] = rec[u] = True
+        for v in adj[u]:
+            if not visited[v] and dfs(v): return True
+            elif rec[v]: return True             # back-edge to current path
+        rec[u] = False                           # pop from recursion stack
+        return False
+    return any(not visited[i] and dfs(i) for i in range(n))
+
+# Directed — DFS (alternative: 3-color  0=unseen, 1=in path, 2=done)
+def cyc_directed_dfs_color(n, adj):
+    state = [0] * n                              # same idea, one array
+    def dfs(u):
+        state[u] = 1
+        for v in adj[u]:
+            if state[v] == 1: return True         # back-edge -> cycle
+            if state[v] == 0 and dfs(v): return True
+        state[u] = 2
+        return False
+    return any(state[i] == 0 and dfs(i) for i in range(n))
+
+# Directed — BFS / Kahn's (hint: in-degree; if processed != V -> cycle)
+def cyc_directed_bfs(n, adj):
+    indeg = [0] * n
+    for u in range(n):
+        for v in adj[u]: indeg[v] += 1
+    q = deque(i for i in range(n) if indeg[i] == 0); processed = 0
+    while q:
+        u = q.popleft(); processed += 1
+        for v in adj[u]:
+            indeg[v] -= 1
+            if indeg[v] == 0: q.append(v)
+    return processed != n`,
       p: [
       [207, "course-schedule", "Course Schedule (directed)", "M"],
       [684, "redundant-connection", "Redundant Connection (undirected)", "M"],
       [802, "find-eventual-safe-states", "Find Eventual Safe States", "M"],
     ]},
-    { n: "Topological Sort", h: "Only for DAGs. Kahn's: repeatedly remove 0 in-degree nodes. Or DFS post-order reversed.", p: [
+    { n: "Topological Sort", h: "Only for DAGs. Two ways: <b>Kahn's (BFS)</b> — repeatedly remove 0 in-degree nodes; <b>DFS</b> — push a node after visiting all its children, then reverse.",
+      code:
+`from collections import deque, defaultdict
+
+# Topological Sort — Kahn's (BFS on in-degree)
+def topo_bfs(n, adj):
+    indeg = [0] * n
+    for u in range(n):
+        for v in adj[u]: indeg[v] += 1
+    q = deque(i for i in range(n) if indeg[i] == 0); order = []
+    while q:
+        u = q.popleft(); order.append(u)
+        for v in adj[u]:
+            indeg[v] -= 1
+            if indeg[v] == 0: q.append(v)
+    return order if len(order) == n else []      # [] => cycle (not a DAG)
+
+# Topological Sort — DFS (reverse post-order)
+def topo_dfs(n, adj):
+    seen = [False] * n; stack = []
+    def dfs(u):
+        seen[u] = True
+        for v in adj[u]:
+            if not seen[v]: dfs(v)
+        stack.append(u)                            # done with u -> push
+    for i in range(n):
+        if not seen[i]: dfs(i)
+    return stack[::-1]                             # reverse = topological order`,
+      p: [
       [210, "course-schedule-ii", "Course Schedule II", "M"],
       [269, "alien-dictionary", "Alien Dictionary", "H"],
       [310, "minimum-height-trees", "Minimum Height Trees", "M"],
@@ -796,12 +854,98 @@ def has_cycle_dsu(n, edges):
       [743, "network-delay-time", "Network Delay Time (Dijkstra)", "M"],
       [787, "cheapest-flights-within-k-stops", "Cheapest Flights K Stops", "M"],
     ]},
-    { n: "MST & Union-Find (DSU)", h: "DSU: union by rank + path compression → ~O(1). Kruskal = sort edges + DSU; Prim = heap.", p: [
+    { n: "MST & Union-Find (DSU)", h: "DSU: union by rank + path compression → ~O(1). <b>Kruskal</b> = sort edges + DSU (add edge if it joins two sets). <b>Prim</b> = grow the tree with a min-heap of crossing edges.",
+      code:
+`# ---- Disjoint Set Union (DSU) ----
+parent = list(range(n)); rank = [0] * n
+def find(x):
+    while parent[x] != x:
+        parent[x] = parent[parent[x]]; x = parent[x]   # path compression
+    return x
+def union(a, b):
+    ra, rb = find(a), find(b)
+    if ra == rb: return False                          # already connected
+    if rank[ra] < rank[rb]: ra, rb = rb, ra
+    parent[rb] = ra
+    if rank[ra] == rank[rb]: rank[ra] += 1
+    return True
+
+# ---- Kruskal's MST ----  edges = [(weight, u, v), ...]
+def kruskal(n, edges):
+    total = weight_used = 0
+    for w, u, v in sorted(edges):        # sort by weight
+        if union(u, v):                  # add edge only if it joins 2 sets
+            total += w; weight_used += 1
+            if weight_used == n - 1: break
+    return total
+
+# ---- Prim's MST ----  adj[u] = [(v, w), ...]
+import heapq
+def prim(n, adj, start=0):
+    seen = [False] * n; pq = [(0, start)]; total = 0
+    while pq:
+        w, u = heapq.heappop(pq)
+        if seen[u]: continue
+        seen[u] = True; total += w       # add cheapest crossing edge
+        for v, wt in adj[u]:
+            if not seen[v]: heapq.heappush(pq, (wt, v))
+    return total`,
+      p: [
       [547, "number-of-provinces", "Number of Provinces", "M"],
       [1584, "min-cost-to-connect-all-points", "Min Cost Connect Points (MST)", "M"],
       [1319, "number-of-operations-to-make-network-connected", "Make Network Connected", "M"],
     ]},
-    { n: "Advanced (bridges / SCC / bipartite)", h: "Tarjan for bridges/articulation & SCC. Bipartite = 2-coloring via BFS/DFS.", p: [
+    { n: "Advanced (bridges / SCC / bipartite)", h: "<b>Bipartite</b> = 2-coloring (BFS or DFS); conflict → not bipartite. <b>Kosaraju</b> finds SCCs with 2 passes (order by finish time, then DFS the transposed graph).",
+      code:
+`from collections import deque
+
+# ---- Bipartite check — BFS (2-coloring) ----
+def is_bipartite_bfs(n, adj):
+    color = [0] * n
+    for s in range(n):
+        if color[s]: continue
+        color[s] = 1; q = deque([s])
+        while q:
+            u = q.popleft()
+            for v in adj[u]:
+                if color[v] == color[u]: return False   # same color = conflict
+                if not color[v]: color[v] = -color[u]; q.append(v)
+    return True
+
+# ---- Bipartite check — DFS (2-coloring) ----
+def is_bipartite_dfs(n, adj):
+    color = [0] * n
+    def dfs(u, c):
+        color[u] = c
+        for v in adj[u]:
+            if color[v] == c: return False
+            if color[v] == 0 and not dfs(v, -c): return False
+        return True
+    return all(color[i] != 0 or dfs(i, 1) for i in range(n))
+
+# ---- Kosaraju's SCC (Strongly Connected Components) ----
+def kosaraju(n, adj):
+    seen = [False] * n; order = []
+    def dfs1(u):                                  # 1) order by finish time
+        seen[u] = True
+        for v in adj[u]:
+            if not seen[v]: dfs1(v)
+        order.append(u)
+    for i in range(n):
+        if not seen[i]: dfs1(i)
+    radj = [[] for _ in range(n)]                 # 2) transpose the graph
+    for u in range(n):
+        for v in adj[u]: radj[v].append(u)
+    seen = [False] * n; sccs = []
+    def dfs2(u, comp):                            # 3) DFS transpose in rev order
+        seen[u] = True; comp.append(u)
+        for v in radj[u]:
+            if not seen[v]: dfs2(v, comp)
+    for u in reversed(order):
+        if not seen[u]:
+            comp = []; dfs2(u, comp); sccs.append(comp)
+    return sccs`,
+      p: [
       [785, "is-graph-bipartite", "Is Graph Bipartite?", "M"],
       [1192, "critical-connections-in-a-network", "Critical Connections (bridges)", "H"],
       [329, "longest-increasing-path-in-a-matrix", "Longest Increasing Path (DFS+memo)", "H"],
