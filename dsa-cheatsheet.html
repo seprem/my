@@ -464,7 +464,7 @@ heapify([...])  ->  O(n)   (sift-down from last parent up)</pre>
     <section class="card" id="graphs">
       <h2>🕸️ Graphs</h2>
       <div class="when"><b>When:</b> connectivity, paths, ordering, cycles. Model as adjacency list. Always track <b>visited</b>.</div>
-      <div class="prop"><span class="lbl">CHOOSE</span> Unweighted shortest path → <b>BFS</b>. 0/1 weights → <b>0-1 BFS (deque)</b>. Non-negative → <b>Dijkstra</b>. Negative edges → <b>Bellman-Ford</b>. All-pairs → <b>Floyd-Warshall</b>. DAG order → <b>Topological sort</b>.</div>
+      <div class="prop"><span class="lbl">CHOOSE</span> Unweighted shortest path → <b>BFS</b>. 0/1 weights → <b>0-1 BFS (deque)</b>. Non-negative → <b>Dijkstra</b>. Negative edges → <b>Bellman-Ford</b>. All-pairs → <b>Floyd-Warshall</b>. DAG order → <b>Topological sort</b>. <b>Directed & undirected:</b> all work on both (an undirected edge = two directed edges u→w, w→u); but negative weights only apply to <b>directed</b> graphs, since a negative undirected edge is itself a negative cycle.</div>
       <div class="grid">
         <div>
           <h3 class="blk">Traversal / Topo / Cycle</h3>

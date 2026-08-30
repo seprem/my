@@ -849,7 +849,7 @@ def topo_dfs(n, adj):
       [269, "alien-dictionary", "Alien Dictionary", "H"],
       [310, "minimum-height-trees", "Minimum Height Trees", "M"],
     ]},
-    { n: "Shortest Path", h: "Unweighted → BFS. Non-negative weights → Dijkstra (heap). Negative → Bellman-Ford. All-pairs → Floyd-Warshall.", p: [
+    { n: "Shortest Path", h: "Unweighted → BFS. Non-negative weights → Dijkstra (heap). Negative → Bellman-Ford. All-pairs → Floyd-Warshall. All four work on both directed & undirected graphs (treat an undirected edge u–w as two directed edges u→w and w→u). Caveat: negative weights only make sense for directed graphs, since a single negative undirected edge is itself a negative cycle (u→w→u).", p: [
       [1091, "shortest-path-in-binary-matrix", "Shortest Path in Binary Matrix", "M"],
       [743, "network-delay-time", "Network Delay Time (Dijkstra)", "M"],
       [787, "cheapest-flights-within-k-stops", "Cheapest Flights K Stops", "M"],
