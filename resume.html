@@ -61,6 +61,7 @@
     header.head .title { font-size: 11.5pt; color: var(--accent); font-weight: bold; margin-top: 2px; }
     header.head .contact { font-family: Arial, sans-serif; font-size: 9pt; color: var(--muted); margin-top: 7px; line-height: 1.6; }
     header.head .contact a { color: var(--accent); text-decoration: none; }
+    header.head .contact a.phone { color: var(--accent); }
 
     section { margin-top: 13px; }
     h2 {
@@ -98,16 +99,22 @@
     a { color: var(--accent); }
 
     /* ---------- PRINT ---------- */
-    @page { size: A4; margin: 12mm; }
+    @page { size: A4; margin: 10mm; }
     @media print {
-      body { background: #fff; font-size: 10.5pt; }
+      body { background: #fff; font-size: 10pt; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .toolbar { display: none; }
       .sheet { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
-      a { color: var(--ink); }
-      header.head .contact a { color: var(--ink); }
-      h2 { page-break-after: avoid; }
+      a { color: var(--accent) !important; text-decoration: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      header.head { padding-bottom: 8px; margin-bottom: 8px; }
+      header.head h1 { font-size: 20pt; }
+      header.head .contact a { color: var(--accent) !important; }
+      section { margin-top: 9px; }
+      h2 { page-break-after: avoid; margin-bottom: 5px; }
+      .role { margin-bottom: 7px; }
       .role-head { page-break-after: avoid; }
-      li { page-break-inside: avoid; }
+      ul { margin-top: 2px; }
+      li { page-break-inside: avoid; margin-bottom: 2px; }
+      .skill-line { margin-bottom: 2px; font-size: 9.3pt; }
     }
   </style>
 </head>
@@ -123,7 +130,8 @@
       <h1>PREM TIWARI</h1>
       <div class="title">Software Engineer II · Backend &amp; Data Engineering</div>
       <div class="contact">
-        Bengaluru, Karnataka, India &nbsp;•&nbsp; +91 96448 46577 &nbsp;•&nbsp;
+        Bengaluru, Karnataka, India &nbsp;•&nbsp;
+        <a class="phone" href="https://wa.me/919644846577">+91 96448 46577</a> &nbsp;•&nbsp;
         <a href="mailto:sepremtiwari@gmail.com">sepremtiwari@gmail.com</a><br />
         <a href="https://sepkt.github.io/prem-tiwari/">Portfolio</a> &nbsp;•&nbsp;
         <a href="https://www.linkedin.com/in/premtiwari14f/">linkedin.com/in/premtiwari14f</a> &nbsp;•&nbsp;
@@ -135,28 +143,11 @@
     <section>
       <h2>Professional Summary</h2>
       <p class="summary">
-        Software Engineer II with 3.5+ years building scalable data platforms and cloud-native backend systems —
-        real-time streaming, high-throughput pipelines, CDC, and observability at scale. Strong across Python,
-        PySpark, Spark, Kafka, Flink, Databricks, Snowflake, and AWS, with a focus on cost, reliability, and
-        throughput. Passionate about clean architecture, automation, and building efficient, maintainable systems.
+        Software Engineer II with 3.5+ years building real-time IoT and CDC data platforms, including a
+        <strong>$200K+ annual Databricks cost reduction</strong>, <strong>1,045 ingestion jobs / 2,756 tasks</strong>
+        across US, EU, and AU, and a <strong>45–50 TB/day</strong> OpenSearch pipeline at Smartsheet. Strong across
+        Python, PySpark, Kafka, Flink, Databricks, and AWS.
       </p>
-    </section>
-
-    <section>
-      <h2>Education</h2>
-      <div class="edu-line">
-        <span><strong>B.Tech, Information Technology</strong> — Jabalpur Engineering College, Jabalpur, M.P.</span>
-        <span class="date">Jul 2019 – Apr 2023</span>
-      </div>
-    </section>
-
-    <section>
-      <h2>Technical Skills</h2>
-      <p class="skill-line"><strong>Languages:</strong> Python, C++, Java, SQL; OOP, DSA, LLD/HLD</p>
-      <p class="skill-line"><strong>Data Engineering:</strong> Spark, PySpark, Kafka, Flink, Databricks, Airflow, Airbyte, Snowflake, Delta Lake, DBT, ETL, Data Warehousing, Data Modeling, CDC</p>
-      <p class="skill-line"><strong>AWS &amp; Cloud:</strong> EC2, S3, Lambda, Kinesis, MSK, SNS, SQS, Glue, API Gateway, VPC, Route 53, CloudWatch, OpenSearch, Logstash</p>
-      <p class="skill-line"><strong>Databases:</strong> PostgreSQL, MongoDB, DynamoDB, Redis, Snowflake</p>
-      <p class="skill-line"><strong>DevOps &amp; Tools:</strong> Docker, Kubernetes, KEDA, Terraform, Terragrunt, Ansible, Jenkins, GitHub Actions, Grafana, MLflow, Postman, SonarQube</p>
     </section>
 
     <section>
@@ -168,13 +159,11 @@
           <span class="date">Oct 2025 – Present</span>
         </div>
         <ul>
-          <li>Migrated multi-task streaming jobs from all-purpose to job clusters, cutting compute costs by <strong>$200K+ annually</strong>.</li>
-          <li>Re-architected legacy Snowflake pipelines onto Databricks <strong>from scratch</strong> — a reusable, config-driven template ingesting from Airbyte, REST APIs, and Databricks connectors as parallel tasks in one multi-task job, feeding a medallion pipeline (S3 → Auto Loader → Spark Structured Streaming → Gold).</li>
-          <li>Built a <strong>CDC pipeline</strong> capturing change-data-capture from the PostgreSQL binlog using <strong>Flink</strong>, streaming into Kinesis (one shard per table) and landing into Delta tables via medallion architecture.</li>
-          <li>Drove CI/CD adoption via Databricks Asset Bundles, enabling automated, consistent deployments across environments.</li>
-          <li>Migrated <strong>1900+ files</strong> into a new parent folder with <strong>zero breaking changes</strong>, updating CI runners, GitLab CI, and AWS Secrets Manager fetching.</li>
-          <li>Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) with <strong>sub-second search</strong> and <strong>zero-data-loss</strong> ingestion at scale.</li>
-          <li>Hardened legacy ingestion (Airbyte → S3 → Airflow → Snowflake), reducing daily failures by <strong>~34%</strong>.</li>
+          <li>Migrated multi-task streaming jobs from all-purpose to job clusters across US, EU, and AU production, cutting compute costs by <strong>$200K+ annually</strong>.</li>
+          <li>Ran Databricks ingestion across US, EU, and AU: <strong>1,045 jobs / 2,756 tasks</strong> over <strong>11 sources</strong> (MySQL CDC, DynamoDB, Kinesis, Salesforce, NetSuite, Stripe), plus a Snowflake → Delta backfill (<strong>42 jobs / 287 tasks</strong>); deployed with Databricks Asset Bundles.</li>
+          <li>CDC from <strong>82 sharded Aurora PostgreSQL and MySQL</strong> databases (Postgres/MySQL → Flink → Kinesis → Delta): <strong>876 jobs / 1,547 tasks</strong>, 282 streaming. A registry expander cut shard onboarding from <strong>~19 configs to 1</strong>.</li>
+          <li>Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) ingesting <strong>45–50 TB/day</strong> across <strong>50–100 Kinesis streams</strong> and <strong>1,000+ shards</strong>, with <strong>sub-second search</strong>.</li>
+          <li>Drove on-call tickets from <strong>~40 to single digits</strong> and cut daily ingestion failures by <strong>~34%</strong>. Built onboarding docs and an access-request dashboard so other teams could self-serve Snowflake, Databricks, AWS, and Jenkins access.</li>
         </ul>
       </div>
 
@@ -184,13 +173,10 @@
           <span class="date">Feb 2024 – Sep 2025</span>
         </div>
         <ul>
-          <li>Built <strong>from scratch</strong> a real-time, <strong>millisecond-latency</strong> alarm platform on Kafka, Redis, and Kinesis (containerized with Docker), exposing an API serving alarms (warning, error, operational) from DynamoDB with event open/close tracking and <strong>Protobuf-encoded payloads</strong>; also streamed alarm data via Kinesis into Delta tables for analytics and data science teams.</li>
-          <li>Built MQTT ingestion pulling from a broker and pushing to MSK using async Python libraries, fully containerized in Docker.</li>
-          <li>Built an OPC-UA IoT pipeline <strong>from scratch</strong> after an AWS Greengrass POC fell short — asynchronously traversing the OPC-UA node tree, handling encryption, and streaming to AWS MSK, with local-server buffering for resilience; enhanced data availability by <strong>96%</strong>.</li>
-          <li>Re-built a legacy Databricks streaming job as a Dockerized service (MSK → Kinesis) with <strong>KEDA autoscaling</strong> on Kafka lag, cutting ingestion latency from minutes to <strong>10–20 seconds</strong>.</li>
-          <li>Built a <strong>KEDA-scalable</strong> service replicating data from prod Kafka to QA/Dev Kafka with configurable filtering and row limits, keeping non-prod costs low.</li>
+          <li>Designed a real-time alarm platform for <strong>~150–200 farms / 19k turbines</strong> on Kafka, Redis, and Kinesis (Docker) — <strong>Protobuf-encoded alarms from Kafka</strong>; built the <strong>frontend API</strong> serving turbine status from DynamoDB with <strong>1–2s lag</strong>, plus a <strong>cursor-paginated file-download API</strong> (DocumentDB + S3); streamed alarms via Kinesis into Delta for analytics.</li>
+          <li>Built an OPC-UA IoT pipeline <strong>from scratch</strong> after an AWS Greengrass POC fell short — <strong>22 Kafka partitions</strong> ingesting <strong>~10k data points/sec</strong>, with local-server buffering; enhanced data availability by <strong>96%</strong>.</li>
+          <li>Re-built a legacy Databricks streaming job as a Dockerized service (MSK → Kinesis) with <strong>KEDA autoscaling</strong> on Kafka lag, cutting <strong>Delta ingestion latency</strong> from minutes to <strong>10–20 seconds</strong>.</li>
           <li>Optimized Databricks/PySpark pipelines for solar &amp; wind farm data, cutting processing time and latency by <strong>~62%</strong> by switching the source from S3 to Kinesis.</li>
-          <li>Built a file download API (DocumentDB metadata + AWS S3 retrieval) with cursor-based pagination across web views listing hundreds of files.</li>
         </ul>
       </div>
 
@@ -200,13 +186,20 @@
           <span class="date">Feb 2023 – Jan 2024</span>
         </div>
         <ul>
-          <li>Built new-customer ingestion tracking wind-turbine events from API data (warning, error, running, service) with accurate logging; authored LLD &amp; HLD.</li>
-          <li>Built <strong>from scratch</strong> a new API data source with <strong>checkpointing</strong> (persisting the last-polled timestamp for gap-free resumption), pushing real-time data into Delta tables; increased data-collection efficiency by <strong>100%</strong>.</li>
           <li>Built a monitoring system surfacing data latency across source services and pinpointing bottlenecks; reduced API latency by <strong>36%</strong>.</li>
           <li>Automated the previously manual, accuracy-based ML model registration to AWS S3, saving the team <strong>12 hrs/week</strong>; raised unit-test coverage to <strong>95%</strong>.</li>
-          <li>Delivered seamless Databricks <strong>LTS</strong> upgrades across <strong>50+</strong> jobs with rigorous <strong>data-quality testing</strong> and <strong>zero pipeline failures</strong>.</li>
+          <li>Delivered Databricks <strong>LTS</strong> upgrades across <strong>50+</strong> jobs with <strong>data-quality testing</strong> and <strong>zero pipeline failures</strong>.</li>
         </ul>
       </div>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <p class="skill-line"><strong>Languages:</strong> Python, C++, SQL</p>
+      <p class="skill-line"><strong>Data Engineering:</strong> Spark, PySpark, Kafka, Flink, Databricks, Airflow, Airbyte, Snowflake, Delta Lake, DBT, ETL, Data Warehousing, Data Modeling, CDC</p>
+      <p class="skill-line"><strong>AWS &amp; Cloud:</strong> EC2, S3, Lambda, Kinesis, MSK, SNS, SQS, Glue, API Gateway, VPC, CloudWatch, OpenSearch, Logstash</p>
+      <p class="skill-line"><strong>Databases:</strong> Aurora PostgreSQL, Aurora MySQL, PostgreSQL, MongoDB, DynamoDB, Redis</p>
+      <p class="skill-line"><strong>DevOps &amp; Tools:</strong> Docker, Kubernetes, KEDA, Terraform, Terragrunt, Ansible, Jenkins, GitHub Actions, Grafana, MLflow</p>
     </section>
 
     <section>
@@ -223,6 +216,14 @@
     </section>
 
     <section>
+      <h2>Recognition</h2>
+      <ul class="achv">
+        <li>Public kudos at Smartsheet from Engineering Manager for ownership; recognized by <strong>CTO, Chief AI Officer, SVP</strong>, and senior ICs after leading stretch work equivalent to an <strong>extra quarter</strong> in the current quarter.</li>
+        <li>Won an internal Smartsheet hackathon: prototyped <strong>usage analytics</strong> that surface which product capabilities a customer needs from real usage — pitched as a retention and expansion play, reusable across similar accounts.</li>
+      </ul>
+    </section>
+
+    <section>
       <h2>Achievements</h2>
       <ul class="achv">
         <li><strong><a href="https://www.codechef.com/users/premtiwari14f">CodeChef</a>:</strong> 5-star, Global Rank 8, College Rank 1 (Starters 70)</li>
@@ -230,6 +231,14 @@
         <li><strong><a href="https://drive.google.com/file/d/1IbciAmqz7Y8NESAfF_hLhXyEHzW9FNl_/view?usp=sharing">TCS CodeVita</a>:</strong> Round 2 Global Rank 83</li>
         <li><strong><a href="https://drive.google.com/file/d/14MqRZaM0MDjgBrjLulz52H-pFFLaEYYh/view?usp=sharing">GFG Job-A-Thon 6</a>:</strong> Global Rank 76</li>
       </ul>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="edu-line">
+        <span><strong>B.Tech, Information Technology</strong> — Jabalpur Engineering College, Jabalpur, M.P.</span>
+        <span class="date">Jul 2019 – Apr 2023</span>
+      </div>
     </section>
   </div>
 </body>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work details — Prem Tiwari</title>
+  <meta name="description" content="Full write-up of Prem Tiwari's work at Smartsheet and Vestas: Databricks ingestion, CDC, OpenSearch, IoT streaming, and backend APIs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">PT</span>
+      <span class="brand-name">Prem Tiwari</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="work.html" class="active">Work</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#achievements">Achievements</a>
+      <a href="dsa.html">DSA Notes</a>
+    </div>
+    <div class="nav-actions">
+      <a href="resume.html" class="nav-cta">Résumé</a>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-inner reveal">
+      <h1>Work details</h1>
+      <p class="tagline">
+        Full write-up of what I built at <strong>Smartsheet</strong> and <strong>Vestas</strong>.
+        The <a href="resume.html">résumé</a> is the skim version.
+      </p>
+      <div class="hero-cta">
+        <a href="resume.html" class="btn btn-primary">View / Download Résumé</a>
+        <a href="index.html" class="btn btn-ghost">Back to portfolio</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section reveal" id="smartsheet">
+      <div class="section-head">
+        <span class="num">01</span>
+        <h2>Smartsheet</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="job">
+          <div class="job-head">
+            <div>
+              <h3>Software Engineer II</h3>
+              <p class="company">Smartsheet</p>
+            </div>
+            <span class="period">Oct 2025 – Present</span>
+          </div>
+          <ul>
+            <li><strong>Databricks cost optimization:</strong> Migrated multi-task streaming jobs from all-purpose to job clusters across US, EU, and AU production, cutting compute costs by <em>$200K+ annually</em>.</li>
+            <li><strong>Multi-source ingestion framework:</strong> Re-architected legacy Snowflake pipelines onto Databricks as a reusable, config-driven framework spanning <em>11 source bundles</em> (MySQL CDC, DynamoDB, Kinesis, Salesforce, NetSuite, Stripe, Airbyte, REST APIs, Databricks connectors) as parallel tasks in multi-task jobs — <em>1,045 jobs / 2,756 tasks</em> across US, EU, and AU, including a Snowflake → Delta backfill (<em>42 jobs / 287 tasks</em>) — feeding a medallion pipeline (S3 → Auto Loader → Spark Structured Streaming → Delta Gold).</li>
+            <li><strong>CDC pipeline (Aurora → Delta):</strong> Landed binlog CDC from <em>82 sharded Aurora PostgreSQL and MySQL</em> databases (Postgres/MySQL → Flink → Kinesis → Delta) — <em>876 jobs / 1,547 tasks</em> with <em>282 continuously streaming</em>, generated from 34 templates by a registry-driven expander that cut shard onboarding from <em>~19 hand-written configs to a single entry</em>.</li>
+            <li><strong>CI/CD for Databricks:</strong> Drove adoption of Databricks Asset Bundles, enabling automated, consistent deployments across environments.</li>
+            <li><strong>Large-scale repo restructuring:</strong> Migrated <em>1900+ files</em> into a new parent folder with zero breaking changes, updating CI runners, GitLab CI, and AWS Secrets Manager fetching to align with the new structure.</li>
+            <li><strong>Real-time observability:</strong> Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) ingesting <em>45–50 TB/day</em> across <em>50–100 Kinesis streams</em> and <em>1,000+ shards</em>, with <em>sub-second search</em>.</li>
+            <li><strong>Legacy reliability:</strong> Hardened legacy ingestion (Airbyte → S3 → Airflow → Snowflake), reducing daily failures by <em>~34%</em>.</li>
+            <li><strong>On-call &amp; access automation:</strong> Drove on-call tickets from <em>~40 to single digits</em>. Built onboarding docs and an access-request dashboard so other teams could self-serve Snowflake, Databricks, AWS, and Jenkins access.</li>
+          </ul>
+          <div class="tech-row">
+            <span>Databricks</span><span>Spark Structured Streaming</span><span>Flink</span><span>Kinesis</span><span>Aurora CDC</span><span>OpenSearch</span><span>Airflow</span><span>Snowflake</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="vestas">
+      <div class="section-head">
+        <span class="num">02</span>
+        <h2>Vestas</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="job">
+          <div class="job-head">
+            <div>
+              <h3>Data Engineer</h3>
+              <p class="company">Vestas</p>
+            </div>
+            <span class="period">Feb 2024 – Sep 2025</span>
+          </div>
+          <ul>
+            <li><strong>Real-time alarm system:</strong> Designed a real-time alarm platform for <em>~150–200 farms / 19k turbines</em> on Kafka, Redis, and Kinesis (containerized with Docker). Ingested <em>Protobuf-encoded alarms from Kafka</em>; built the <em>frontend API</em> serving alarms (warning, error, operational) from DynamoDB with event open/close tracking and <em>1–2s lag</em> for turbine status; streamed alarm data via Kinesis into Delta tables for analytics and data science.</li>
+            <li><strong>MQTT ingestion:</strong> Pulled data from an MQTT broker and pushed to MSK using async Python libraries, fully containerized in Docker, feeding the same generic downstream ingestion pipeline.</li>
+            <li><strong>OPC-UA IoT pipeline:</strong> Built <em>from scratch</em> after an AWS Greengrass POC fell short — asynchronously traverses the OPC-UA node tree, handles encryption, and streams to AWS MSK (Kafka) on <em>22 Kafka partitions</em> ingesting <em>~10k data points/sec</em>, with local-server buffering when the internet drops or MSK is down; enhanced data availability by <em>96%</em>.</li>
+            <li><strong>Autoscaling stream processor:</strong> Re-built a legacy Databricks streaming job as a Dockerized service (MSK → Kinesis) with <em>KEDA</em> autoscaling on Kafka lag, cutting <em>Delta ingestion latency</em> from minutes to <em>10–20 seconds</em>.</li>
+            <li><strong>Prod → QA/Dev data replicator:</strong> Built a <em>KEDA-scalable</em> service that replicates data from prod Kafka to QA/Dev Kafka with configurable filtering and row limits, keeping non-prod running costs low.</li>
+            <li><strong>Ingestion &amp; processing:</strong> Optimized Databricks/PySpark pipelines for solar &amp; wind farm data, cutting processing time and latency by <em>~62%</em> by switching the source from S3 to Kinesis.</li>
+            <li><strong>File download API:</strong> Built a cursor-paginated API to fetch file metadata from DocumentDB and retrieve files from AWS S3, for web views listing hundreds of files.</li>
+          </ul>
+          <div class="tech-row">
+            <span>PySpark</span><span>Kafka / MSK</span><span>MQTT</span><span>OPC-UA</span><span>Kinesis</span><span>KEDA</span><span>Redis</span><span>DynamoDB</span><span>DocumentDB</span><span>Docker</span><span>Kubernetes</span>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-head">
+            <div>
+              <h3>Assistant Data Engineer</h3>
+              <p class="company">Vestas</p>
+            </div>
+            <span class="period">Feb 2023 – Jan 2024</span>
+          </div>
+          <ul>
+            <li><strong>Event data consolidation:</strong> Built new-customer ingestion that tracks wind-turbine events from API data — capturing states like warning, error, running, and service — with accurate logging; authored LLD &amp; HLD.</li>
+            <li><strong>Wind-farm data polling (API):</strong> Built a new API data source for a new customer — automated pollers with <em>checkpointing</em> (persisting the last-polled timestamp for gap-free resumption) that push real-time data into Delta tables.</li>
+            <li><strong>Latency tracking:</strong> Built a monitoring system that surfaces data latency across source services and pinpoints bottlenecks; reduced API latency by <em>36%</em>.</li>
+            <li><strong>ML model automation:</strong> Automated the previously manual, accuracy-based model registration to AWS S3, saving the team <em>12 hrs/week</em>; raised unit-test coverage to <em>95%</em>.</li>
+            <li><strong>Platform upgrades:</strong> Delivered Databricks <em>LTS</em> upgrades across <em>50+</em> jobs with data-quality testing and <em>zero pipeline failures</em>.</li>
+          </ul>
+          <div class="tech-row">
+            <span>Databricks</span><span>AWS S3</span><span>MLflow</span><span>Python</span><span>Unit Testing</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="recognition">
+      <div class="section-head">
+        <span class="num">03</span>
+        <h2>Recognition</h2>
+      </div>
+      <article class="job">
+        <ul>
+          <li>Public kudos at Smartsheet from Engineering Manager for ownership; recognized by <em>CTO, Chief AI Officer, SVP</em>, and senior ICs after leading stretch work equivalent to an <em>extra quarter</em> in the current quarter.</li>
+          <li>Won an internal Smartsheet hackathon: prototyped <em>usage analytics</em> that surface which product capabilities a customer needs from real usage — pitched as a retention and expansion play, reusable across similar accounts.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <span class="footer-links-label">Also on this site</span>
+      <a href="resume.html" class="footer-link">Résumé</a>
+      <a href="dsa.html" class="footer-link">DSA Patterns Roadmap</a>
+      <a href="study.html" class="footer-link">Study Notes</a>
+    </div>
+    <p>© <span id="year"></span> Prem Tiwari</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

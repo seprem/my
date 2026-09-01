@@ -22,8 +22,9 @@
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#skills">Skills</a>
       <a href="#experience">Experience</a>
+      <a href="work.html">Work</a>
+      <a href="#skills">Skills</a>
       <a href="#achievements">Achievements</a>
       <a href="dsa.html">DSA Notes</a>
     </div>
@@ -40,8 +41,8 @@
       <h1>Prem Tiwari</h1>
       <p class="current-role"><span class="dot"></span> Currently <strong>Software Engineer II</strong> at <strong>Smartsheet</strong></p>
       <p class="tagline">
-        I build <strong>scalable data platforms</strong> and <strong>cloud-native backend systems</strong> —
-        real-time streaming, high-throughput pipelines, and observability at scale.
+        I build <strong>real-time IoT and CDC data platforms</strong> —
+        streaming pipelines, Databricks, and cloud-native backends on AWS.
       </p>
       <p class="location">📍 Bengaluru, Karnataka, India</p>
 
@@ -69,36 +70,87 @@
         <h2>About</h2>
       </div>
       <p class="lead">
-        Results-driven software engineer specializing in <strong>backend and data engineering</strong>. I design and
-        operate scalable data pipelines, real-time processing systems, and IoT ingestion (OPC-UA, MQTT) using
-        Kafka, Redis, Spark, and AWS. Currently at <strong>Smartsheet</strong>, delivering cloud-native,
-        high-performance data solutions.
+        Software Engineer II at <strong>Smartsheet</strong> with 3.5+ years building
+        <strong>real-time IoT and CDC data platforms</strong> — including a
+        <strong>$200K+ annual Databricks cost reduction</strong>,
+        <strong>1,045 ingestion jobs / 2,756 tasks</strong> across US, EU, and AU, and a
+        <strong>45–50 TB/day</strong> OpenSearch pipeline.
       </p>
       <p class="muted-body">
-        I work fluently across <strong>Python, PySpark, Delta Lake, ETL, data warehousing, data modeling,
-        Databricks, and Snowflake</strong>, and build cloud-native services on <strong>AWS</strong> across
-        multiple services — <strong>EC2, S3, Lambda, Kinesis, SNS/SQS, Glue, and CloudWatch</strong>. I have
-        strong experience in <strong>REST API development</strong> and working with a range of data stores
-        including <strong>PostgreSQL, DynamoDB, MongoDB, Redis, and OpenSearch</strong>, with a focus on
-        optimizing large-scale workflows for cost, reliability, and throughput. I care deeply about clean
-        architecture, observability, and building systems that are efficient, maintainable, and genuinely impactful.
+        I design and operate streaming pipelines and cloud-native backends across
+        <strong>Python, PySpark, Kafka, Flink, Databricks, and AWS</strong>
+        (Kinesis, S3, Lambda, CloudWatch), with data stores including
+        <strong>Aurora PostgreSQL, Aurora MySQL, DynamoDB, Redis, and OpenSearch</strong>. Focus is cost,
+        reliability, and throughput — not just shipping pipelines.
       </p>
     </section>
 
-    <!-- Education -->
-    <section class="section reveal" id="education">
+    <!-- Experience -->
+    <section class="section reveal" id="experience">
       <div class="section-head">
         <span class="num">02</span>
-        <h2>Education</h2>
+        <h2>Experience</h2>
+        <a class="section-more" href="work.html">Full write-up →</a>
       </div>
-      <div class="job-head">
-        <div>
-          <h3>B.Tech, Information Technology</h3>
-          <p class="company">Jabalpur Engineering College</p>
-        </div>
-        <span class="period">Jul 2019 – Apr 2023</span>
+
+      <div class="timeline">
+        <article class="job">
+          <div class="job-head">
+            <div>
+              <h3>Software Engineer II</h3>
+              <p class="company">Smartsheet</p>
+            </div>
+            <span class="period">Oct 2025 – Present</span>
+          </div>
+          <ul>
+            <li><strong>Databricks cost optimization:</strong> Migrated multi-task streaming jobs from all-purpose to job clusters across US, EU, and AU production, cutting compute costs by <em>$200K+ annually</em>.</li>
+            <li><strong>Multi-source ingestion framework:</strong> Ran Databricks ingestion across US, EU, and AU: <em>1,045 jobs / 2,756 tasks</em> over <em>11 sources</em> (MySQL CDC, DynamoDB, Kinesis, Salesforce, NetSuite, Stripe), plus a Snowflake → Delta backfill (<em>42 jobs / 287 tasks</em>); deployed with Databricks Asset Bundles.</li>
+            <li><strong>CDC pipeline (Aurora → Delta):</strong> CDC from <em>82 sharded Aurora PostgreSQL and MySQL</em> databases (Postgres/MySQL → Flink → Kinesis → Delta): <em>876 jobs / 1,547 tasks</em>, 282 streaming. A registry expander cut shard onboarding from <em>~19 configs to 1</em>.</li>
+            <li><strong>Real-time observability:</strong> Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) ingesting <em>45–50 TB/day</em> across <em>50–100 Kinesis streams</em> and <em>1,000+ shards</em>, with <em>sub-second search</em>.</li>
+            <li><strong>On-call &amp; access automation:</strong> Drove on-call tickets from <em>~40 to single digits</em> and cut daily ingestion failures by <em>~34%</em>. Built onboarding docs and an access-request dashboard so other teams could self-serve Snowflake, Databricks, AWS, and Jenkins access.</li>
+          </ul>
+          <div class="tech-row">
+            <span>Databricks</span><span>Spark Structured Streaming</span><span>Aurora CDC</span><span>Flink</span><span>DynamoDB</span><span>Kinesis</span><span>Salesforce</span><span>OpenSearch</span><span>Snowflake</span>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-head">
+            <div>
+              <h3>Data Engineer</h3>
+              <p class="company">Vestas</p>
+            </div>
+            <span class="period">Feb 2024 – Sep 2025</span>
+          </div>
+          <ul>
+            <li><strong>Real-time alarm system:</strong> Designed a real-time alarm platform for <em>~150–200 farms / 19k turbines</em> on Kafka, Redis, and Kinesis (Docker) — <em>Protobuf-encoded alarms from Kafka</em>; built the <em>frontend API</em> serving turbine status from DynamoDB with <em>1–2s lag</em>, plus a <em>cursor-paginated file-download API</em> (DocumentDB + S3); streamed alarms via Kinesis into Delta for analytics.</li>
+            <li><strong>OPC-UA IoT pipeline:</strong> Built <em>from scratch</em> after an AWS Greengrass POC fell short — <em>22 Kafka partitions</em> ingesting <em>~10k data points/sec</em>, with local-server buffering; enhanced data availability by <em>96%</em>.</li>
+            <li><strong>Autoscaling stream processor:</strong> Re-built a legacy Databricks streaming job as a Dockerized service (MSK → Kinesis) with <em>KEDA</em> autoscaling on Kafka lag, cutting <em>Delta ingestion latency</em> from minutes to <em>10–20 seconds</em>.</li>
+            <li><strong>Ingestion &amp; processing:</strong> Optimized Databricks/PySpark pipelines for solar &amp; wind farm data, cutting processing time and latency by <em>~62%</em> by switching the source from S3 to Kinesis.</li>
+          </ul>
+          <div class="tech-row">
+            <span>PySpark</span><span>Kafka / MSK</span><span>OPC-UA</span><span>Kinesis</span><span>KEDA</span><span>Redis</span><span>DynamoDB</span><span>DocumentDB</span><span>Docker</span><span>Kubernetes</span>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-head">
+            <div>
+              <h3>Assistant Data Engineer</h3>
+              <p class="company">Vestas</p>
+            </div>
+            <span class="period">Feb 2023 – Jan 2024</span>
+          </div>
+          <ul>
+            <li><strong>Latency tracking:</strong> Built a monitoring system that surfaces data latency across source services and pinpoints bottlenecks; reduced API latency by <em>36%</em>.</li>
+            <li><strong>ML model automation:</strong> Automated the previously manual, accuracy-based model registration to AWS S3, saving the team <em>12 hrs/week</em>; raised unit-test coverage to <em>95%</em>.</li>
+            <li><strong>Platform upgrades:</strong> Delivered Databricks <em>LTS</em> upgrades across <em>50+</em> jobs with <em>data-quality testing</em> and <em>zero pipeline failures</em>.</li>
+          </ul>
+          <div class="tech-row">
+            <span>Databricks</span><span>AWS S3</span><span>MLflow</span><span>Python</span><span>Unit Testing</span>
+          </div>
+        </article>
       </div>
-      <p class="muted">Jabalpur, Madhya Pradesh, India</p>
     </section>
 
     <!-- Skills -->
@@ -110,12 +162,11 @@
 
       <div class="skills-list">
         <div class="skill-row">
-          <h3>Languages &amp; Foundations</h3>
+          <h3>Languages</h3>
           <div class="tags">
             <span><img class="si" src="https://cdn.simpleicons.org/python/3776AB" alt="" />Python</span>
             <span><img class="si" src="https://cdn.simpleicons.org/cplusplus/00599C" alt="" />C++</span>
-            <span><img class="si dark-invert" src="https://cdn.simpleicons.org/openjdk/000000" alt="" />Java</span>
-            <span>SQL</span><span>OOP</span><span>DSA</span><span>LLD</span><span>HLD</span>
+            <span>SQL</span>
           </div>
         </div>
 
@@ -129,12 +180,14 @@
             <span><img class="si" src="https://cdn.simpleicons.org/apacheairflow/017CEE" alt="" />Airflow</span>
             <span><img class="si" src="https://cdn.simpleicons.org/airbyte/615EFF" alt="" />Airbyte</span>
             <span><img class="si" src="https://cdn.simpleicons.org/snowflake/29B5E8" alt="" />Snowflake</span>
+            <span><img class="si" src="https://cdn.simpleicons.org/mysql/4479A1" alt="" />MySQL</span>
+            <span>Aurora</span>
             <span><img class="si" src="https://cdn.simpleicons.org/postgresql/4169E1" alt="" />PostgreSQL</span>
             <span><img class="si" src="https://cdn.simpleicons.org/mongodb/47A248" alt="" />MongoDB</span>
             <span><img class="si" src="https://icon.icepanel.io/AWS/svg/Database/DynamoDB.svg" alt="" />DynamoDB</span>
             <span><img class="si" src="https://cdn.simpleicons.org/redis/FF4438" alt="" />Redis</span>
             <span>Delta Lake</span><span>DBT</span><span>ETL</span>
-            <span>Data Warehousing</span><span>Data Modeling</span>
+            <span>Data Warehousing</span><span>Data Modeling</span><span>CDC</span>
           </div>
         </div>
 
@@ -150,7 +203,6 @@
             <span><img class="si" src="https://icon.icepanel.io/AWS/svg/Analytics/Glue.svg" alt="" />Glue</span>
             <span><img class="si" src="https://icon.icepanel.io/AWS/svg/App-Integration/API-Gateway.svg" alt="" />API Gateway</span>
             <span><img class="si" src="https://icon.icepanel.io/AWS/svg/Networking-Content-Delivery/Virtual-Private-Cloud.svg" alt="" />VPC</span>
-            <span><img class="si" src="https://icon.icepanel.io/AWS/svg/Networking-Content-Delivery/Route-53.svg" alt="" />Route 53</span>
             <span><img class="si" src="https://icon.icepanel.io/AWS/svg/Management-Governance/CloudWatch.svg" alt="" />CloudWatch</span>
             <span><img class="si" src="https://icon.icepanel.io/AWS/svg/Analytics/OpenSearch-Service.svg" alt="" />OpenSearch</span>
             <span><img class="si" src="https://cdn.simpleicons.org/logstash/005571" alt="" />Logstash</span>
@@ -169,96 +221,25 @@
             <span><img class="si dark-invert" src="https://cdn.simpleicons.org/github/181717" alt="" />GitHub Actions</span>
             <span><img class="si" src="https://cdn.simpleicons.org/grafana/F46800" alt="" />Grafana</span>
             <span><img class="si" src="https://cdn.simpleicons.org/mlflow/0194E2" alt="" />MLflow</span>
-            <span><img class="si" src="https://cdn.simpleicons.org/postman/FF6C37" alt="" />Postman</span>
-            <span>SonarQube</span>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Experience -->
-    <section class="section reveal" id="experience">
-      <div class="section-head">
-        <span class="num">04</span>
-        <h2>Experience</h2>
-      </div>
-
-      <div class="timeline">
-        <article class="job">
-          <div class="job-head">
-            <div>
-              <h3>Software Engineer II</h3>
-              <p class="company">Smartsheet</p>
-            </div>
-            <span class="period">Oct 2025 – Present</span>
-          </div>
-          <ul>
-            <li><strong>Databricks cost optimization:</strong> Migrated multi-task streaming jobs from all-purpose to job clusters, cutting compute costs by <em>$200K+ annually</em>.</li>
-            <li><strong>Generic multi-source ingestion framework:</strong> Re-architected legacy Snowflake pipelines onto Databricks <em>from scratch</em> — a reusable, config-driven template ingesting from Airbyte, REST APIs, and Databricks connectors as parallel tasks in one multi-task job (moved from all-purpose to job compute for cost), feeding a medallion pipeline (S3 → Auto Loader → Spark Structured Streaming → Gold).</li>
-            <li><strong>CDC pipeline (Postgres → Delta):</strong> Captured <em>change-data-capture</em> from the PostgreSQL binlog using <em>Flink</em>, streaming into Kinesis (one shard per table) and landing into <em>Delta tables</em> via a medallion architecture.</li>
-            <li><strong>CI/CD for Databricks:</strong> Drove adoption of Databricks Asset Bundles, enabling automated, consistent deployments across environments.</li>
-            <li><strong>Large-scale repo restructuring:</strong> Migrated <em>1900+ files</em> into a new parent folder with <em>zero breaking changes</em>, updating CI runners, GitLab CI, and AWS Secrets Manager fetching to align with the new structure.</li>
-            <li><strong>Real-time observability:</strong> Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) with <em>sub-second search</em> and <em>zero-data-loss</em> ingestion at scale.</li>
-            <li><strong>Legacy reliability:</strong> Hardened legacy ingestion (Airbyte → S3 → Airflow → Snowflake), reducing daily failures by <em>~34%</em>.</li>
-          </ul>
-          <div class="tech-row">
-            <span>Databricks</span><span>Spark Structured Streaming</span><span>Flink</span><span>Kinesis</span><span>PostgreSQL CDC</span><span>OpenSearch</span><span>Airflow</span><span>Snowflake</span>
-          </div>
-        </article>
-
-        <article class="job">
-          <div class="job-head">
-            <div>
-              <h3>Data Engineer</h3>
-              <p class="company">Vestas</p>
-            </div>
-            <span class="period">Feb 2024 – Sep 2025</span>
-          </div>
-          <ul>
-            <li><strong>Real-time alarm system:</strong> Built <em>from scratch</em> — a <em>real-time, millisecond-latency</em> alarm platform on Kafka, Redis, and Kinesis (all containerized with Docker), exposing an API that serves alarms — warning, error, operational, and more — from DynamoDB with event open/close tracking and <em>Protobuf-encoded payloads</em>; also streamed alarm data through Kinesis into <em>Delta tables</em> via a Databricks job for the analytics and data science teams.</li>
-            <li><strong>MQTT ingestion:</strong> Pulled data from an MQTT broker and pushed to MSK using async Python libraries, fully containerized in Docker, feeding the same generic downstream ingestion pipeline.</li>
-            <li><strong>OPC-UA IoT pipeline:</strong> Built <em>from scratch</em> after an AWS Greengrass POC fell short — asynchronously traverses the OPC-UA server's node tree, handles encryption, and streams to AWS MSK (Kafka), with local-server buffering for resilience when the internet drops or MSK is down; enhanced data availability by <em>96%</em>.</li>
-            <li><strong>Autoscaling stream processor:</strong> Re-built a legacy Databricks streaming job as a Dockerized service transforming MSK data into Kinesis, using <em>KEDA</em> autoscaling on Kafka lag to cut ingestion latency from minutes to <em>10–20 seconds</em>.</li>
-            <li><strong>Prod → QA/Dev data replicator:</strong> Built a <em>KEDA-scalable</em> service that replicates data from <em>prod Kafka to QA/Dev Kafka</em> with configurable filtering and row limits, keeping non-prod running costs low.</li>
-            <li><strong>Ingestion &amp; processing:</strong> Optimized Databricks/PySpark pipelines for solar &amp; wind farm data, cutting processing time and pipeline latency by <em>~62%</em> by switching the source from S3 to Kinesis.</li>
-            <li><strong>File download API:</strong> Built an API to fetch file metadata from DocumentDB and retrieve files from AWS S3, with <em>cursor-based pagination</em> to page through web views listing hundreds of files.</li>
-          </ul>
-          <div class="tech-row">
-            <span>PySpark</span><span>Kafka / MSK</span><span>MQTT</span><span>OPC-UA</span><span>Kinesis</span><span>KEDA</span><span>Redis</span><span>DynamoDB</span><span>Docker</span><span>Kubernetes</span>
-          </div>
-        </article>
-
-        <article class="job">
-          <div class="job-head">
-            <div>
-              <h3>Assistant Data Engineer</h3>
-              <p class="company">Vestas</p>
-            </div>
-            <span class="period">Feb 2023 – Jan 2024</span>
-          </div>
-          <ul>
-            <li><strong>Event data consolidation:</strong> Built new-customer ingestion that tracks wind-turbine events from API data — capturing states like warning, error, running, and service — with accurate logging; authored LLD &amp; HLD.</li>
-            <li><strong>Wind-farm data polling (API):</strong> Built <em>from scratch</em> a new API data source for a new customer — automated pollers with <em>checkpointing</em> (persisting the last-polled timestamp for reliable, gap-free resumption) that push real-time data into Delta tables, increasing data-collection efficiency by <em>100%</em>.</li>
-            <li><strong>Latency tracking:</strong> Built a monitoring system that surfaces data latency across different source services and pinpoints bottlenecks; resolving those pain points reduced API latency by <em>36%</em>.</li>
-            <li><strong>ML model automation:</strong> Automated the previously manual, accuracy-based model registration to AWS S3 — saving the team <em>12 hrs/week</em>; also raised unit-test coverage to <em>95%</em>.</li>
-            <li><strong>Platform upgrades:</strong> Delivered seamless Databricks <em>LTS</em> upgrades across <em>50+</em> jobs with rigorous <em>data-quality testing</em> and <em>zero pipeline failures</em>.</li>
-          </ul>
-          <div class="tech-row">
-            <span>Databricks</span><span>AWS S3</span><span>MLflow</span><span>Python</span><span>Unit Testing</span>
-          </div>
-        </article>
       </div>
     </section>
 
     <!-- Achievements & Certifications -->
     <section class="section reveal" id="achievements">
       <div class="section-head">
-        <span class="num">05</span>
+        <span class="num">04</span>
         <h2>Achievements &amp; Certifications</h2>
       </div>
 
       <div class="two-col">
         <div>
+          <h3 class="col-title">Recognition</h3>
+          <ul class="achievements">
+            <li>Public kudos at Smartsheet from Engineering Manager for ownership; recognized by <strong>CTO, Chief AI Officer, SVP</strong>, and senior ICs after leading stretch work equivalent to an extra quarter in the current quarter.</li>
+            <li>Won an internal Smartsheet hackathon: prototyped <strong>usage analytics</strong> that surface which product capabilities a customer needs from real usage — pitched as a retention and expansion play, reusable across similar accounts.</li>
+          </ul>
           <h3 class="col-title">Competitive Programming</h3>
           <ul class="achievements">
             <li><a class="ach-link" href="https://www.codechef.com/users/premtiwari14f" target="_blank" rel="noopener"><strong>CodeChef ↗</strong></a> — 5★ · Global Rank 8 · College Rank 1 (Starters 70)</li>
@@ -281,6 +262,22 @@
       </div>
     </section>
 
+    <!-- Education -->
+    <section class="section reveal" id="education">
+      <div class="section-head">
+        <span class="num">05</span>
+        <h2>Education</h2>
+      </div>
+      <div class="job-head">
+        <div>
+          <h3>B.Tech, Information Technology</h3>
+          <p class="company">Jabalpur Engineering College</p>
+        </div>
+        <span class="period">Jul 2019 – Apr 2023</span>
+      </div>
+      <p class="muted">Jabalpur, Madhya Pradesh, India</p>
+    </section>
+
     <!-- Contact -->
     <section class="section contact-section reveal" id="contact">
       <h2>Let's build something great.</h2>
@@ -298,7 +295,8 @@
 
   <footer>
     <div class="footer-links">
-      <span class="footer-links-label">DSA Interview Prep</span>
+      <span class="footer-links-label">Also on this site</span>
+      <a href="work.html" class="footer-link">Work details</a>
       <a href="dsa.html" class="footer-link">📚 DSA Patterns Roadmap</a>
       <a href="study.html" class="footer-link">📖 Study Notes</a>
       <a href="dsa-cheatsheet.html" class="footer-link">📝 1-Day Cheat Sheet</a>
