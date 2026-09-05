@@ -895,7 +895,7 @@ def prim(n, adj, start=0):
       [1584, "min-cost-to-connect-all-points", "Min Cost Connect Points (MST)", "M"],
       [1319, "number-of-operations-to-make-network-connected", "Make Network Connected", "M"],
     ]},
-    { n: "Advanced (bridges / SCC / bipartite)", h: "<b>Bipartite</b> = 2-coloring (BFS or DFS); conflict → not bipartite. <b>Kosaraju</b> finds SCCs with 2 passes (order by finish time, then DFS the transposed graph).",
+    { n: "Advanced (bridges / SCC / bipartite)", h: "<b>Bipartite</b> = 2-coloring (BFS or DFS); conflict → not bipartite. <b>Kosaraju</b> finds SCCs with 2 passes (topo sort by finish time, then DFS the transposed graph in reverse topo order).",
       code:
 `from collections import deque
 
@@ -926,24 +926,24 @@ def is_bipartite_dfs(n, adj):
 # ---- Kosaraju's SCC (Strongly Connected Components) ----
 def kosaraju(n, adj):
     seen = [False] * n; order = []
-    def dfs1(u):                                  # 1) order by finish time
+    def toposort(u):                              # 1) topo order by finish time
         seen[u] = True
         for v in adj[u]:
-            if not seen[v]: dfs1(v)
+            if not seen[v]: toposort(v)
         order.append(u)
     for i in range(n):
-        if not seen[i]: dfs1(i)
+        if not seen[i]: toposort(i)
     radj = [[] for _ in range(n)]                 # 2) transpose the graph
     for u in range(n):
         for v in adj[u]: radj[v].append(u)
     seen = [False] * n; sccs = []
-    def dfs2(u, comp):                            # 3) DFS transpose in rev order
+    def dfs(u, comp):                             # 3) DFS transpose in reverse topo order
         seen[u] = True; comp.append(u)
         for v in radj[u]:
-            if not seen[v]: dfs2(v, comp)
+            if not seen[v]: dfs(v, comp)
     for u in reversed(order):
         if not seen[u]:
-            comp = []; dfs2(u, comp); sccs.append(comp)
+            comp = []; dfs(u, comp); sccs.append(comp)
     return sccs`,
       p: [
       [785, "is-graph-bipartite", "Is Graph Bipartite?", "M"],
