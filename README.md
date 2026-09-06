@@ -21,15 +21,14 @@ Or open `index.html` in a browser.
 | `work.html` | Full work write-up (every project, including items trimmed from the résumé) |
 | `resume.html` | Printable one-page résumé (blue links, WhatsApp on the phone number) |
 | `Prem_Tiwari_Resume.pdf` | Downloaded résumé PDF |
-| `study.html` | Study notes |
-| `dsa-cheatsheet.html` | 1-day cheat sheet |
-| `dsa.html` | DSA patterns questions |
-| `dsa-data.js` | Shared DSA content for notes / cheat sheet / questions |
+| `study.html` | Redirects to Mindstack DSA Notes |
+| `dsa-cheatsheet.html` | Redirects to Mindstack one-day sheet |
+| `dsa.html` | Redirects to Mindstack patterns |
 | `style.css` | Theme, layout, dark/light mode |
 | `script.js` | Theme toggle, footer year, nav scroll |
 | `build-pdf.sh` | Regenerates `Prem_Tiwari_Resume.pdf` from `resume.html` |
 
-Footer order: **Study Notes** → **1-Day Cheat Sheet** → **DSA Patterns Question**.
+Study notes live on **[Mindstack](https://seprem.github.io/mindstack/)**. Old `/study.html`, `/dsa.html`, and `/dsa-cheatsheet.html` URLs redirect there.
 
 ## Refresh the PDF
 
