@@ -415,7 +415,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 30px 24px 40px; }
 .job li { position: relative; padding-left: 20px; color: var(--muted); font-size: 0.95rem; }
 .job li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); }
 .job li strong { color: var(--text); font-weight: 600; }
-.job li em { color: var(--primary); font-style: normal; font-weight: 700; }
+.job li em { color: var(--text); font-style: normal; font-weight: 700; }
 
 .tech-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--border); }
 .tech-row span {

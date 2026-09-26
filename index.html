@@ -70,15 +70,16 @@
         <h2>About</h2>
       </div>
       <p class="lead">
-        Software Engineer II at <strong>Smartsheet</strong> with 3.5+ years building
-        <strong>real-time IoT and CDC data platforms</strong> — including a
-        <strong>$200K+ annual Databricks cost reduction</strong>,
+        Software Engineer II in <strong>Bengaluru</strong> with <strong>3 years 8 months</strong> of experience,
+        from <strong>wind-farm IoT</strong> at Vestas to data platforms at <strong>Smartsheet</strong>.
+        That includes an <strong>OPC-UA</strong> pipeline from scratch (<strong>~10k points/sec</strong>, <strong>96% higher availability</strong>)
+        for <strong>~19k turbines</strong>, a <strong>$200K+ annual Databricks cost reduction</strong>,
         <strong>1,045 ingestion jobs / 2,756 tasks</strong> across US, EU, and AU, and a
         <strong>45–50 TB/day</strong> OpenSearch pipeline.
       </p>
       <p class="muted-body">
         I design and operate streaming pipelines and cloud-native backends across
-        <strong>Python, PySpark, Kafka, Flink, Databricks, and AWS</strong>
+        <strong>Python, Go, PySpark, Kafka, Flink, OPC-UA, MQTT, Databricks, and AWS</strong>
         (Kinesis, S3, Lambda, CloudWatch), with data stores including
         <strong>Aurora PostgreSQL, Aurora MySQL, DynamoDB, Redis, and OpenSearch</strong>. Focus is cost,
         reliability, and throughput — not just shipping pipelines.
@@ -103,11 +104,12 @@
             <span class="period">Oct 2025 – Present</span>
           </div>
           <ul>
-            <li><strong>Databricks cost optimization:</strong> Migrated multi-task streaming jobs from all-purpose to job clusters across US, EU, and AU production, cutting compute costs by <em>$200K+ annually</em>.</li>
-            <li><strong>Multi-source ingestion framework:</strong> Ran Databricks ingestion across US, EU, and AU: <em>1,045 jobs / 2,756 tasks</em> over <em>11 sources</em> (MySQL CDC, DynamoDB, Kinesis, Salesforce, NetSuite, Stripe), plus a Snowflake → Delta backfill (<em>42 jobs / 287 tasks</em>); deployed with Databricks Asset Bundles.</li>
-            <li><strong>CDC pipeline (Aurora → Delta):</strong> CDC from <em>82 sharded Aurora PostgreSQL and MySQL</em> databases (Postgres/MySQL → Flink → Kinesis → Delta): <em>876 jobs / 1,547 tasks</em>, 282 streaming. A registry expander cut shard onboarding from <em>~19 configs to 1</em>.</li>
-            <li><strong>Real-time observability:</strong> Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) ingesting <em>45–50 TB/day</em> across <em>50–100 Kinesis streams</em> and <em>1,000+ shards</em>, with <em>sub-second search</em>.</li>
-            <li><strong>On-call &amp; access automation:</strong> Drove on-call tickets from <em>~40 to single digits</em> and cut daily ingestion failures by <em>~34%</em>. Built onboarding docs and an access-request dashboard so other teams could self-serve Snowflake, Databricks, AWS, and Jenkins access.</li>
+            <li><strong>Multi-source ingestion framework:</strong> Built <em>config-driven ingestion for different sources</em> on <em>Databricks</em> across <em>US, EU, and AU</em>: <em>1,045 jobs / 2,756 tasks</em> over <em>11 sources</em> (<em>MySQL CDC</em>, <em>DynamoDB</em>, <em>Kinesis</em>, <em>Salesforce API</em>, <em>NetSuite</em>, <em>Stripe</em>), plus a <em>Snowflake → Delta</em> backfill (<em>42 jobs / 287 tasks</em>), shipped with <em>Databricks Asset Bundles (CI/CD)</em>.</li>
+            <li><strong>Databricks cost optimization:</strong> Migrated <em>multi-task Spark streaming jobs</em> on <em>Databricks</em> from <em>all-purpose</em> to <em>job clusters</em> across <em>US, EU, and AU</em> production, cutting compute costs by <em>$200K+ annually</em>.</li>
+            <li><strong>Non-realtime tables:</strong> Took tables that were <em>not required in real time</em> off the streaming path, cutting that compute from <em>$5K to $400</em> so Spark was not wasted on data that did not need to be live.</li>
+            <li><strong>CDC pipeline (Aurora → Delta):</strong> Landed CDC from <em>82 sharded Aurora PostgreSQL</em> databases (<em>Aurora PostgreSQL → Flink → Kinesis → Delta tables</em>): <em>876 jobs / 1,547 tasks</em>, <em>282 streaming</em>, feeding a <em>vector database for AI and LLMs</em>.</li>
+            <li><strong>Real-time observability:</strong> Built a <em>high-availability log pipeline</em> (<em>CloudWatch → subscription filter → Kinesis → Logstash → OpenSearch</em>) ingesting <em>45–50 TB/day</em> across <em>50–100 Kinesis streams</em> and <em>1,000+ shards</em>, with <em>sub-second search</em>.</li>
+            <li><strong>Audit &amp; access automation:</strong> Built <em>audit automation</em> for <em>Databricks, Snowflake, Jenkins, and AWS</em>, plus <em>onboarding docs</em> and an <em>access-request dashboard</em> so other teams <em>self-serve</em> access — cutting <em>weeks of manual effort to days or hours</em>. Drove <em>on-call tickets</em> from <em>~40 to single digits</em> and <em>daily ingestion failures</em> by <em>~34%</em>.</li>
           </ul>
           <div class="tech-row">
             <span>Databricks</span><span>Spark Structured Streaming</span><span>Aurora CDC</span><span>Flink</span><span>DynamoDB</span><span>Kinesis</span><span>Salesforce</span><span>OpenSearch</span><span>Snowflake</span>
@@ -165,6 +167,7 @@
           <h3>Languages</h3>
           <div class="tags">
             <span><img class="si" src="https://cdn.simpleicons.org/python/3776AB" alt="" />Python</span>
+            <span><img class="si" src="https://cdn.simpleicons.org/go/00ADD8" alt="" />Go</span>
             <span><img class="si" src="https://cdn.simpleicons.org/cplusplus/00599C" alt="" />C++</span>
             <span>SQL</span>
           </div>
@@ -226,46 +229,10 @@
       </div>
     </section>
 
-    <!-- Achievements & Certifications -->
-    <section class="section reveal" id="achievements">
-      <div class="section-head">
-        <span class="num">04</span>
-        <h2>Achievements &amp; Certifications</h2>
-      </div>
-
-      <div class="two-col">
-        <div>
-          <h3 class="col-title">Recognition</h3>
-          <ul class="achievements">
-            <li>Public kudos at Smartsheet from Engineering Manager for ownership; recognized by <strong>CTO, Chief AI Officer, SVP</strong>, and senior ICs after leading stretch work equivalent to an extra quarter — including delivering in <strong>one week</strong> a project a contract team had been working on for two months.</li>
-            <li>Won an internal Smartsheet hackathon: prototyped <strong>usage analytics</strong> that surface which product capabilities a customer needs from real usage — pitched as a retention and expansion play, reusable across similar accounts.</li>
-          </ul>
-          <h3 class="col-title">Competitive Programming</h3>
-          <ul class="achievements">
-            <li><a class="ach-link" href="https://www.codechef.com/users/premtiwari14f" target="_blank" rel="noopener"><strong>CodeChef ↗</strong></a> — 5★ · Global Rank 8 · College Rank 1 (Starters 70)</li>
-            <li><a class="ach-link" href="https://leetcode.com/u/prem14f/" target="_blank" rel="noopener"><strong>LeetCode ↗</strong></a> &amp; <a class="ach-link" href="https://www.geeksforgeeks.org/user/premlkt123/" target="_blank" rel="noopener"><strong>GFG ↗</strong></a> — 450+ problems solved</li>
-            <li><a class="ach-link" href="https://drive.google.com/file/d/1IbciAmqz7Y8NESAfF_hLhXyEHzW9FNl_/view?usp=sharing" target="_blank" rel="noopener"><strong>TCS CodeVita ↗</strong></a> — Round 2 Global Rank 83</li>
-            <li><a class="ach-link" href="https://drive.google.com/file/d/14MqRZaM0MDjgBrjLulz52H-pFFLaEYYh/view?usp=sharing" target="_blank" rel="noopener"><strong>GFG Job-A-Thon 6 ↗</strong></a> — Global Rank 76</li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="col-title">Snowflake Certifications</h3>
-          <div class="cert-links">
-            <a href="https://achieve.snowflake.com/23ab3a8b-5385-4381-ab8c-739de471c51a#acc.8QrqWa4d" target="_blank" rel="noopener">Collaboration &amp; Marketplace ↗</a>
-            <a href="https://achieve.snowflake.com/2c4ed677-e18a-403d-9496-b221733350d4#acc.kE2SePz9" target="_blank" rel="noopener">Data Application ↗</a>
-            <a href="https://achieve.snowflake.com/67aa6a4b-f3d9-4886-a0e3-14d053d1676d#acc.KMYrqgw4" target="_blank" rel="noopener">Data Lake ↗</a>
-            <a href="https://achieve.snowflake.com/810f2bc5-b9cb-42fa-8d0e-07bd6bc1b5c5#acc.BLj75CGm" target="_blank" rel="noopener">Data Warehousing ↗</a>
-            <a href="https://achieve.snowflake.com/c47f8edf-21a6-48f8-be7a-835d4eb55972#acc.sAkRndZB" target="_blank" rel="noopener">Data Engineering ↗</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Education -->
     <section class="section reveal" id="education">
       <div class="section-head">
-        <span class="num">05</span>
+        <span class="num">04</span>
         <h2>Education</h2>
       </div>
       <div class="job-head">
@@ -276,6 +243,42 @@
         <span class="period">Jul 2019 – Apr 2023</span>
       </div>
       <p class="muted">Jabalpur, Madhya Pradesh, India</p>
+    </section>
+
+    <!-- Achievements, Recognition, Certifications -->
+    <section class="section reveal" id="achievements">
+      <div class="section-head">
+        <span class="num">05</span>
+        <h2>Achievements</h2>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 class="col-title">Achievements</h3>
+          <ul class="achievements">
+            <li><a class="ach-link" href="https://www.codechef.com/users/premtiwari14f" target="_blank" rel="noopener"><strong>CodeChef ↗</strong></a> — 5★ · Global Rank 8 · College Rank 1 (Starters 70)</li>
+            <li><a class="ach-link" href="https://leetcode.com/u/prem14f/" target="_blank" rel="noopener"><strong>LeetCode ↗</strong></a> &amp; <a class="ach-link" href="https://www.geeksforgeeks.org/user/premlkt123/" target="_blank" rel="noopener"><strong>GFG ↗</strong></a> — 450+ problems solved</li>
+            <li><a class="ach-link" href="https://drive.google.com/file/d/1IbciAmqz7Y8NESAfF_hLhXyEHzW9FNl_/view?usp=sharing" target="_blank" rel="noopener"><strong>TCS CodeVita ↗</strong></a> — Round 2 Global Rank 83</li>
+            <li><a class="ach-link" href="https://drive.google.com/file/d/14MqRZaM0MDjgBrjLulz52H-pFFLaEYYh/view?usp=sharing" target="_blank" rel="noopener"><strong>GFG Job-A-Thon 6 ↗</strong></a> — Global Rank 76</li>
+          </ul>
+          <h3 class="col-title">Recognition</h3>
+          <ul class="achievements">
+            <li><strong>Public kudos</strong> at Smartsheet from <strong>Engineering Manager</strong> for <strong>ownership</strong>; recognized by <strong>CTO, Chief AI Officer, SVP</strong>, and <strong>senior ICs</strong> after leading stretch work equivalent to an <strong>extra quarter</strong> — including delivering in <strong>one week</strong> a project a contract team had been working on for <strong>two months</strong>.</li>
+            <li>Won an internal <strong>Smartsheet hackathon</strong>: prototyped <strong>usage analytics</strong> that surface which product capabilities a customer needs from real usage — pitched as a <strong>retention and expansion</strong> play, reusable across similar accounts.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="col-title">Certifications</h3>
+          <div class="cert-links">
+            <a href="https://achieve.snowflake.com/23ab3a8b-5385-4381-ab8c-739de471c51a#acc.8QrqWa4d" target="_blank" rel="noopener">Collaboration &amp; Marketplace ↗</a>
+            <a href="https://achieve.snowflake.com/2c4ed677-e18a-403d-9496-b221733350d4#acc.kE2SePz9" target="_blank" rel="noopener">Data Application ↗</a>
+            <a href="https://achieve.snowflake.com/67aa6a4b-f3d9-4886-a0e3-14d053d1676d#acc.KMYrqgw4" target="_blank" rel="noopener">Data Lake ↗</a>
+            <a href="https://achieve.snowflake.com/810f2bc5-b9cb-42fa-8d0e-07bd6bc1b5c5#acc.BLj75CGm" target="_blank" rel="noopener">Data Warehousing ↗</a>
+            <a href="https://achieve.snowflake.com/c47f8edf-21a6-48f8-be7a-835d4eb55972#acc.sAkRndZB" target="_blank" rel="noopener">Data Engineering ↗</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Contact -->

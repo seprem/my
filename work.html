@@ -60,14 +60,15 @@
             <span class="period">Oct 2025 – Present</span>
           </div>
           <ul>
-            <li><strong>Databricks cost optimization:</strong> Migrated multi-task streaming jobs from all-purpose to job clusters across US, EU, and AU production, cutting compute costs by <em>$200K+ annually</em>.</li>
-            <li><strong>Multi-source ingestion framework:</strong> Re-architected legacy Snowflake pipelines onto Databricks as a reusable, config-driven framework spanning <em>11 source bundles</em> (MySQL CDC, DynamoDB, Kinesis, Salesforce, NetSuite, Stripe, Airbyte, REST APIs, Databricks connectors) as parallel tasks in multi-task jobs — <em>1,045 jobs / 2,756 tasks</em> across US, EU, and AU, including a Snowflake → Delta backfill (<em>42 jobs / 287 tasks</em>) — feeding a medallion pipeline (S3 → Auto Loader → Spark Structured Streaming → Delta Gold).</li>
-            <li><strong>CDC pipeline (Aurora → Delta):</strong> Landed binlog CDC from <em>82 sharded Aurora PostgreSQL and MySQL</em> databases (Postgres/MySQL → Flink → Kinesis → Delta) — <em>876 jobs / 1,547 tasks</em> with <em>282 continuously streaming</em>, generated from 34 templates by a registry-driven expander that cut shard onboarding from <em>~19 hand-written configs to a single entry</em>.</li>
-            <li><strong>CI/CD for Databricks:</strong> Drove adoption of Databricks Asset Bundles, enabling automated, consistent deployments across environments.</li>
+            <li><strong>Multi-source ingestion framework:</strong> Built reusable, <em>config-driven ingestion for different sources</em> on Databricks, spanning <em>11 source bundles</em> (<em>MySQL CDC</em>, <em>DynamoDB</em>, <em>Kinesis</em>, <em>Salesforce API</em>, <em>NetSuite</em>, <em>Stripe</em>, Airbyte, REST APIs, Databricks connectors) as parallel tasks in multi-task jobs — <em>1,045 jobs / 2,756 tasks</em> across <em>US, EU, and AU</em>, including a <em>Snowflake → Delta</em> backfill (<em>42 jobs / 287 tasks</em>) — feeding a medallion pipeline (S3 → Auto Loader → Spark Structured Streaming → Delta Gold), shipped with <em>Databricks Asset Bundles (CI/CD)</em>.</li>
+            <li><strong>Databricks cost optimization:</strong> Migrated <em>multi-task Spark streaming jobs</em> on <em>Databricks</em> from <em>all-purpose</em> to <em>job clusters</em> across <em>US, EU, and AU</em> production, cutting compute costs by <em>$200K+ annually</em>.</li>
+            <li><strong>Non-realtime tables:</strong> Took tables that were <em>not required in real time</em> off the streaming path, cutting that compute from <em>$5K to $400</em> so Spark was not wasted on data that did not need to be live.</li>
+            <li><strong>CDC pipeline (Aurora → Delta):</strong> Landed binlog CDC from <em>82 sharded Aurora PostgreSQL</em> databases (<em>Aurora PostgreSQL → Flink → Kinesis → Delta tables</em>) — <em>876 jobs / 1,547 tasks</em> with <em>282 continuously streaming</em>, feeding a <em>vector database for AI and LLMs</em>.</li>
+            <li><strong>Databricks Asset Bundles (CI/CD):</strong> Drove adoption for automated, consistent deployments across environments.</li>
             <li><strong>Large-scale repo restructuring:</strong> Migrated <em>1900+ files</em> into a new parent folder with zero breaking changes, updating CI runners, GitLab CI, and AWS Secrets Manager fetching to align with the new structure.</li>
-            <li><strong>Real-time observability:</strong> Built a high-availability log pipeline (CloudWatch → Kinesis → Logstash → OpenSearch) ingesting <em>45–50 TB/day</em> across <em>50–100 Kinesis streams</em> and <em>1,000+ shards</em>, with <em>sub-second search</em>.</li>
+            <li><strong>Real-time observability:</strong> Built a high-availability log pipeline (<em>CloudWatch → subscription filter → Kinesis → Logstash → OpenSearch</em>) ingesting <em>45–50 TB/day</em> across <em>50–100 Kinesis streams</em> and <em>1,000+ shards</em>, with <em>sub-second search</em>.</li>
             <li><strong>Legacy reliability:</strong> Hardened legacy ingestion (Airbyte → S3 → Airflow → Snowflake), reducing daily failures by <em>~34%</em>.</li>
-            <li><strong>On-call &amp; access automation:</strong> Drove on-call tickets from <em>~40 to single digits</em>. Built onboarding docs and an access-request dashboard so other teams could self-serve Snowflake, Databricks, AWS, and Jenkins access.</li>
+            <li><strong>Audit &amp; access automation:</strong> Built <em>audit automation</em> for <em>Databricks, Snowflake, Jenkins, and AWS</em>, plus <em>onboarding docs</em> and an <em>access-request dashboard</em> so other teams could <em>self-serve</em> access — cutting <em>weeks of manual effort to days or hours</em>. Drove <em>on-call tickets</em> from <em>~40 to single digits</em>.</li>
           </ul>
           <div class="tech-row">
             <span>Databricks</span><span>Spark Structured Streaming</span><span>Flink</span><span>Kinesis</span><span>Aurora CDC</span><span>OpenSearch</span><span>Airflow</span><span>Snowflake</span>
@@ -134,8 +135,8 @@
       </div>
       <article class="job">
         <ul>
-          <li>Public kudos at Smartsheet from Engineering Manager for ownership; recognized by <em>CTO, Chief AI Officer, SVP</em>, and senior ICs after leading stretch work equivalent to an <em>extra quarter</em> — including delivering in <em>one week</em> a project a contract team had been working on for two months.</li>
-          <li>Won an internal Smartsheet hackathon: prototyped <em>usage analytics</em> that surface which product capabilities a customer needs from real usage — pitched as a retention and expansion play, reusable across similar accounts.</li>
+          <li><em>Public kudos</em> at Smartsheet from <em>Engineering Manager</em> for <em>ownership</em>; recognized by <em>CTO, Chief AI Officer, SVP</em>, and <em>senior ICs</em> after leading stretch work equivalent to an <em>extra quarter</em> — including delivering in <em>one week</em> a project a contract team had been working on for <em>two months</em>.</li>
+          <li>Won an internal <em>Smartsheet hackathon</em>: prototyped <em>usage analytics</em> that surface which product capabilities a customer needs from real usage — pitched as a <em>retention and expansion</em> play, reusable across similar accounts.</li>
         </ul>
       </article>
     </section>
