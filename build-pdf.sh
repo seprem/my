@@ -16,4 +16,9 @@ fi
   --print-to-pdf="$DIR/Prem_Tiwari_Resume.pdf" \
   "file://$DIR/resume.html" 2>/dev/null
 
-echo "✅ Wrote $DIR/Prem_Tiwari_Resume.pdf (no headers/footers)"
+"$CHROME" --headless --disable-gpu --no-pdf-header-footer \
+  --print-to-pdf="$DIR/Prem_Tiwari_Resume_14f.pdf" \
+  "file://$DIR/resume-14f.html" 2>/dev/null
+
+echo "✅ Wrote $DIR/Prem_Tiwari_Resume.pdf"
+echo "✅ Wrote $DIR/Prem_Tiwari_Resume_14f.pdf"
