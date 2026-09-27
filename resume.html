@@ -57,15 +57,15 @@
     }
 
     header.head { text-align: center; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 12px; }
-    header.head h1 { font-size: 22pt; letter-spacing: 0.5px; color: var(--ink); }
-    header.head .title { font-size: 11.5pt; color: var(--accent); font-weight: bold; margin-top: 2px; }
-    header.head .contact { font-family: Arial, sans-serif; font-size: 9pt; color: var(--muted); margin-top: 7px; line-height: 1.6; }
+    header.head h1 { font-family: Georgia, "Times New Roman", serif; font-size: 22pt; letter-spacing: 0.5px; color: var(--ink); }
+    header.head .title { font-family: Georgia, "Times New Roman", serif; font-size: 11pt; color: var(--accent); font-weight: bold; margin-top: 2px; }
+    header.head .contact { font-family: Georgia, "Times New Roman", serif; font-size: 9.25pt; color: var(--ink); margin-top: 7px; line-height: 1.4; white-space: nowrap; }
     header.head .contact a { color: var(--accent); text-decoration: none; }
     header.head .contact a.phone { color: var(--accent); }
 
     section { margin-top: 13px; }
     h2 {
-      font-family: Arial, sans-serif;
+      font-family: Georgia, "Times New Roman", serif;
       font-size: 11pt;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -75,22 +75,22 @@
       margin-bottom: 7px;
     }
 
-    p.summary { text-align: justify; }
+    p.summary { text-align: justify; font-size: 11pt; }
 
-    .skill-line { font-family: Arial, sans-serif; font-size: 9.7pt; color: var(--muted); margin-bottom: 4px; }
-    .skill-line strong { color: var(--ink); }
+    .skill-line { font-family: Georgia, "Times New Roman", serif; font-size: 11pt; color: var(--ink); margin-bottom: 4px; }
+    .skill-line strong { color: var(--ink); font-weight: 700; }
 
     .role { margin-bottom: 10px; }
     .role-head { display: flex; justify-content: space-between; align-items: baseline; }
-    .role-head .pos { font-weight: bold; font-size: 11pt; }
+    .role-head .pos { font-family: Georgia, "Times New Roman", serif; font-weight: bold; font-size: 11pt; }
     .role-head .comp { font-style: italic; color: var(--accent); }
-    .role-head .date { font-family: Arial, sans-serif; font-size: 9pt; color: var(--muted); white-space: nowrap; }
+    .role-head .date { font-family: Georgia, "Times New Roman", serif; font-size: 11pt; color: var(--ink); white-space: nowrap; }
     ul { margin: 4px 0 0 18px; }
     ul li { margin-bottom: 3px; text-align: justify; }
     .role li strong, .achv li strong, p.summary strong { color: var(--ink); font-weight: 700; }
 
     .edu-line { display: flex; justify-content: space-between; align-items: baseline; }
-    .edu-line .date { font-family: Arial, sans-serif; font-size: 9pt; color: var(--muted); }
+    .edu-line, .edu-line .date { font-family: Georgia, "Times New Roman", serif; font-size: 11pt; color: var(--ink); }
 
     .two { display: flex; gap: 26px; }
     .two > div { flex: 1; }
@@ -102,21 +102,32 @@
     /* ---------- PRINT ---------- */
     @page { size: A4; margin: 10mm; }
     @media print {
-      body { background: #fff; font-size: 10pt; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { background: #fff; font-size: 11pt; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .toolbar { display: none; }
       .sheet { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
       a { color: var(--accent) !important; text-decoration: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .role li strong, .achv li strong, p.summary strong { color: #1a1a1a !important; font-weight: 700; }
       header.head { padding-bottom: 8px; margin-bottom: 8px; }
-      header.head h1 { font-size: 20pt; }
+      header.head h1 { font-size: 22pt; }
+      header.head .contact { font-size: 9.25pt !important; white-space: nowrap; }
+      header.head .title,
+      h2,
+      p.summary,
+      .skill-line,
+      .role-head .pos,
+      .role-head .date,
+      .edu-line,
+      .edu-line .date,
+      li { font-size: 11pt; }
       header.head .contact a { color: var(--accent) !important; }
       section { margin-top: 9px; }
       h2 { page-break-after: avoid; margin-bottom: 5px; }
+      section.skills-break { break-before: page; page-break-before: always; }
       .role { margin-bottom: 7px; }
       .role-head { page-break-after: avoid; }
       ul { margin-top: 2px; }
       li { page-break-inside: avoid; margin-bottom: 2px; }
-      .skill-line { margin-bottom: 2px; font-size: 9.3pt; }
+      .skill-line { margin-bottom: 2px; font-size: 11pt; }
     }
   </style>
 </head>
@@ -130,23 +141,28 @@
   <div class="sheet">
     <header class="head">
       <h1>PREM TIWARI</h1>
-      <div class="title">Software Engineer II · Backend &amp; Data Engineering</div>
       <div class="contact">
         Bengaluru, Karnataka, India &nbsp;•&nbsp;
         <a class="phone" href="https://wa.me/919644846577">+91 96448 46577</a> &nbsp;•&nbsp;
-        <a href="mailto:sepremtiwari@gmail.com">sepremtiwari@gmail.com</a><br />
+        <a href="mailto:sepremtiwari@gmail.com">sepremtiwari@gmail.com</a> &nbsp;•&nbsp;
         <a href="https://seprem.github.io/my/">Portfolio</a> &nbsp;•&nbsp;
-        <a href="https://www.linkedin.com/in/premtiwari14f/">linkedin.com/in/premtiwari14f</a> &nbsp;•&nbsp;
-        <a href="https://github.com/seprem">github.com/seprem</a> &nbsp;•&nbsp;
-        <a href="https://leetcode.com/u/prem14f/">leetcode.com/u/prem14f</a>
+        <a href="https://www.linkedin.com/in/premtiwari14f/">linkedin.com/in/premtiwari14f</a>
       </div>
     </header>
 
     <section>
       <h2>Professional Summary</h2>
       <p class="summary">
-        <strong>Software Engineer II</strong> based in <strong>Bengaluru</strong>, with <strong>3 years 8 months</strong> of experience moving from <strong>wind-farm IoT</strong> to large-scale <strong>data platforms</strong>. At Vestas I built <strong>real-time IoT</strong> ingestion, including an <strong>OPC-UA</strong> pipeline from scratch on <strong>Kafka</strong>, <strong>MQTT</strong>, and <strong>Kinesis</strong>. At Smartsheet I deliver <strong>config-driven Databricks ingestion</strong> and <strong>CDC</strong> across <strong>US, EU, and AU</strong> for sources including <strong>MySQL CDC</strong>, <strong>DynamoDB</strong>, <strong>Kinesis</strong>, <strong>Salesforce API</strong>, <strong>NetSuite</strong>, and <strong>Stripe</strong>, plus an <strong>OpenSearch</strong> pipeline. Tech I work on: <strong>Python, Go, SQL, PySpark, Kafka, Flink, OPC-UA, MQTT, Databricks, Snowflake, Airflow, and AWS</strong>.
+        Backend and data engineer in Bengaluru with <strong>3 years 8 months</strong> of experience. I started on real-time wind-farm IoT at Vestas, including OPC-UA and MQTT pipelines built from scratch to move on-prem SCADA data to the cloud over a secure, encrypted path, and now build data platforms at Smartsheet across US, EU, and AU. I ship projects end to end: API development, scaling Docker services, Databricks and Snowflake on AWS, OpenSearch for logging, and Datadog for alarms. I stay with the work after it ships, from on-call and cost through to how other teams get access.
       </p>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="edu-line">
+        <span><strong>B.Tech, Information Technology</strong> — Jabalpur Engineering College, Jabalpur, M.P.</span>
+        <span class="date">Jul 2019 – Apr 2023</span>
+      </div>
     </section>
 
     <section>
@@ -158,11 +174,11 @@
           <span class="date">Oct 2025 – Present</span>
         </div>
         <ul>
-          <li>Built <strong>config-driven ingestion for different sources</strong> on <strong>Databricks</strong> across <strong>US, EU, and AU</strong>: <strong>1,045 jobs / 2,756 tasks</strong> over <strong>11 sources</strong> (<strong>MySQL CDC</strong>, <strong>DynamoDB</strong>, <strong>Kinesis</strong>, <strong>Salesforce API</strong>, <strong>NetSuite</strong>, <strong>Stripe</strong>), plus a <strong>Snowflake → Delta</strong> backfill (<strong>42 jobs / 287 tasks</strong>), shipped with <strong>Databricks Asset Bundles (CI/CD)</strong>.</li>
-          <li>Migrated <strong>multi-task Spark streaming jobs</strong> on <strong>Databricks</strong> from <strong>all-purpose</strong> to <strong>job clusters</strong> across <strong>US, EU, and AU</strong> production, cutting compute costs by <strong>$200K+ annually</strong>.</li>
-          <li>Landed CDC from <strong>82 sharded Aurora PostgreSQL</strong> databases (<strong>Aurora PostgreSQL → Flink → Kinesis → Delta tables</strong>): <strong>876 jobs / 1,547 tasks</strong>, <strong>282 streaming</strong>, feeding a <strong>vector database for AI and LLMs</strong>.</li>
-          <li>Built a <strong>high-availability log pipeline</strong> (<strong>CloudWatch → subscription filter → Kinesis → Logstash → OpenSearch</strong>) ingesting <strong>45–50 TB/day</strong> across <strong>50–100 Kinesis streams</strong> and <strong>1,000+ shards</strong>, with <strong>sub-second search</strong>.</li>
-          <li>Built <strong>audit automation</strong> for <strong>Databricks, Snowflake, Jenkins, and AWS</strong>, plus <strong>onboarding docs</strong> and an <strong>access-request dashboard</strong> so other teams <strong>self-serve</strong> access — cutting <strong>weeks of manual effort to days or hours</strong>. Drove <strong>on-call tickets</strong> from <strong>~40 to single digits</strong> and <strong>daily ingestion failures</strong> by <strong>~34%</strong>.</li>
+          <li>Built config-driven ETL data pipelines for different sources on Databricks with Python and Spark Structured Streaming across US, EU, and AU: <strong>1,045 jobs / 2,756 tasks</strong> over 11 sources (MySQL CDC, DynamoDB, Kinesis, Salesforce API, NetSuite, Stripe), plus a Snowflake to Delta Lake backfill, shipped with Databricks Asset Bundles (CI/CD).</li>
+          <li>Migrated multi-task Apache Spark streaming jobs on Databricks from all-purpose to job clusters across US, EU, and AU production, cutting compute costs by <strong>$300K+ annually</strong>.</li>
+          <li>Landed Change Data Capture (CDC) from 82 sharded Aurora PostgreSQL databases (Aurora PostgreSQL → Flink → Kinesis → Delta tables): <strong>876 jobs / 1,547 tasks</strong>, 282 streaming, feeding a vector database for AI and LLMs.</li>
+          <li>Built a high-availability observability log pipeline (CloudWatch → subscription filter → Kinesis → Logstash → OpenSearch) ingesting <strong>45–50 TB/day</strong> across 50–100 Kinesis streams and 1,000+ shards, with sub-second search.</li>
+          <li>Built audit automation for Databricks, Snowflake, Jenkins, and AWS, plus onboarding docs and an access-request dashboard so other teams self-serve access — cutting weeks of manual effort to days or hours. Drove on-call tickets from <strong>~40 to single digits</strong> and daily ingestion failures by <strong>~34%</strong>.</li>
         </ul>
       </div>
 
@@ -172,10 +188,10 @@
           <span class="date">Feb 2024 – Sep 2025</span>
         </div>
         <ul>
-          <li>Designed a <strong>real-time alarm platform</strong> for <strong>~150–200 farms / 19k turbines</strong> on <strong>Kafka, Redis, and Kinesis</strong> (<strong>Docker</strong>) — <strong>Protobuf-encoded alarms from Kafka</strong>; built the <strong>frontend API</strong> serving turbine status from <strong>DynamoDB</strong> with <strong>1–2s lag</strong>, plus a <strong>cursor-paginated file-download API</strong> (<strong>DocumentDB + S3</strong>); streamed alarms via <strong>Kinesis into Delta</strong> for analytics.</li>
-          <li>Built an <strong>OPC-UA IoT pipeline</strong> <strong>from scratch</strong> after an <strong>AWS Greengrass</strong> POC fell short — <strong>22 Kafka partitions</strong> ingesting <strong>~10k data points/sec</strong>, with <strong>local-server buffering</strong>; enhanced data availability by <strong>96%</strong>.</li>
-          <li>Re-built a legacy <strong>Databricks streaming job</strong> as a <strong>Dockerized</strong> service (<strong>MSK → Kinesis</strong>) with <strong>KEDA autoscaling</strong> on <strong>Kafka lag</strong>, cutting <strong>Delta ingestion latency</strong> from minutes to <strong>10–20 seconds</strong>.</li>
-          <li>Optimized <strong>Databricks/PySpark</strong> pipelines for solar &amp; wind farm data, cutting processing time and latency by <strong>~62%</strong> by switching the source from <strong>S3 to Kinesis</strong>.</li>
+          <li>Designed a real-time alarm platform for <strong>~150–200 farms / 19k turbines</strong> on Kafka, Redis, and Kinesis (Docker) — Protobuf-encoded alarms from Kafka; built the REST API serving turbine status from DynamoDB with <strong>1–2s lag</strong>, plus a cursor-paginated file-download API (DocumentDB + S3); streamed alarms via Kinesis into Delta Lake for analytics.</li>
+          <li>Built OPC-UA and MQTT pipelines from scratch after an AWS Greengrass POC fell short, pushing on-prem SCADA data to the cloud over a secure, encrypted path — 22 Kafka partitions ingesting <strong>~10k data points/sec</strong>, with local-server buffering; enhanced data availability by <strong>96%</strong>.</li>
+          <li>Re-built a legacy Databricks streaming job as a Dockerized Kubernetes service (MSK → Kinesis) with KEDA autoscaling on Kafka lag, cutting Delta Lake ingestion latency from minutes to <strong>10–20 seconds</strong>.</li>
+          <li>Optimized Databricks and PySpark ETL pipelines for solar and wind farm data, cutting processing time and latency by <strong>~62%</strong> by switching the source from S3 to Kinesis.</li>
         </ul>
       </div>
 
@@ -185,28 +201,21 @@
           <span class="date">Feb 2023 – Jan 2024</span>
         </div>
         <ul>
-          <li>Built a <strong>monitoring system</strong> surfacing <strong>data latency</strong> across source services and pinpointing bottlenecks; reduced <strong>API latency</strong> by <strong>36%</strong>.</li>
-          <li>Automated the previously manual, accuracy-based <strong>ML model registration</strong> to <strong>AWS S3</strong>, saving the team <strong>12 hrs/week</strong>; raised <strong>unit-test coverage</strong> to <strong>95%</strong>.</li>
-          <li>Delivered <strong>Databricks LTS</strong> upgrades across <strong>50+ jobs</strong> with <strong>data-quality testing</strong> and <strong>zero pipeline failures</strong>.</li>
+          <li>Built a monitoring system surfacing data latency across source services and pinpointing bottlenecks; reduced API latency by <strong>36%</strong>.</li>
+          <li>Automated the previously manual, accuracy-based ML model registration to AWS S3, saving the team <strong>12 hrs/week</strong>; raised unit-test coverage to <strong>95%</strong>.</li>
+          <li>Delivered Databricks LTS upgrades across <strong>50+ data pipeline jobs</strong> with data-quality testing and zero pipeline failures.</li>
         </ul>
       </div>
     </section>
 
-    <section>
+    <section class="skills-break">
       <h2>Technical Skills</h2>
       <p class="skill-line"><strong>Languages:</strong> Python, Go, C++, SQL</p>
-      <p class="skill-line"><strong>Data Engineering:</strong> Spark, PySpark, Kafka, Flink, Databricks, Airflow, Airbyte, Snowflake, Delta Lake, DBT, ETL, Data Warehousing, Data Modeling, CDC</p>
-      <p class="skill-line"><strong>AWS &amp; Cloud:</strong> EC2, S3, Lambda, Kinesis, MSK, SNS, SQS, Glue, API Gateway, VPC, CloudWatch, OpenSearch, Logstash</p>
-      <p class="skill-line"><strong>Databases:</strong> Aurora PostgreSQL, Aurora MySQL, PostgreSQL, MongoDB, DynamoDB, Redis</p>
-      <p class="skill-line"><strong>DevOps &amp; Tools:</strong> Docker, Kubernetes, KEDA, Terraform, Terragrunt, Ansible, Jenkins, GitHub Actions, Grafana, MLflow</p>
-    </section>
-
-    <section>
-      <h2>Education</h2>
-      <div class="edu-line">
-        <span><strong>B.Tech, Information Technology</strong> — Jabalpur Engineering College, Jabalpur, M.P.</span>
-        <span class="date">Jul 2019 – Apr 2023</span>
-      </div>
+      <p class="skill-line"><strong>Backend:</strong> REST APIs, distributed systems, Docker, Kubernetes</p>
+      <p class="skill-line"><strong>Data Engineering:</strong> Apache Spark, PySpark, Spark Structured Streaming, Apache Kafka, Apache Flink, Databricks, Delta Lake, Snowflake, Airflow, dbt, ETL, ELT, data pipelines, data warehousing, data modeling, data lakes, Change Data Capture (CDC), OPC-UA, MQTT, SCADA</p>
+      <p class="skill-line"><strong>AWS &amp; Cloud:</strong> Amazon Web Services (AWS), EC2, S3, Lambda, Kinesis, Amazon MSK, SNS, SQS, Glue, API Gateway, VPC, CloudWatch, OpenSearch, Logstash</p>
+      <p class="skill-line"><strong>Databases:</strong> Aurora PostgreSQL, Aurora MySQL, PostgreSQL, MongoDB, DynamoDB, Redis, vector database</p>
+      <p class="skill-line"><strong>DevOps &amp; Tools:</strong> Docker, Kubernetes, KEDA, Terraform, Terragrunt, Ansible, Jenkins, GitHub Actions, GitLab CI, Git, CI/CD, Grafana, Datadog, MLflow</p>
     </section>
 
     <section>
@@ -222,8 +231,8 @@
     <section>
       <h2>Recognition</h2>
       <ul class="achv">
-        <li><strong>Public kudos</strong> at Smartsheet from <strong>Engineering Manager</strong> for <strong>ownership</strong>; recognized by <strong>CTO, Chief AI Officer, SVP</strong>, and <strong>senior ICs</strong> after leading stretch work equivalent to an <strong>extra quarter</strong> — including delivering in <strong>one week</strong> a project a contract team had been working on for <strong>two months</strong>.</li>
-        <li>Won an internal <strong>Smartsheet hackathon</strong>: prototyped <strong>usage analytics</strong> that surface which product capabilities a customer needs from real usage — pitched as a <strong>retention and expansion</strong> play, reusable across similar accounts.</li>
+        <li>Public kudos at Smartsheet from Engineering Manager for ownership; recognized by CTO, Chief AI Officer, SVP, and senior ICs after leading stretch work equivalent to an <strong>extra quarter</strong> — including delivering in <strong>one week</strong> a project a contract team had been working on for two months.</li>
+        <li>Won an internal Smartsheet hackathon: prototyped usage analytics that surface which product capabilities a customer needs from real usage — pitched as a retention and expansion play, reusable across similar accounts.</li>
       </ul>
     </section>
 
